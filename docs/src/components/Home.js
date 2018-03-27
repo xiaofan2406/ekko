@@ -1,8 +1,9 @@
 /* @flow */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { css } from 'react-emotion';
 import { spacing } from 'styles';
-import ekko from 'ekko';
+import { NAV_LINKS } from 'utils/constants';
 
 const cssHome = css`
   & > .title {
@@ -15,7 +16,12 @@ const cssHome = css`
 const Home = () => (
   <div className={cssHome}>
     <div className="title">Hello world!</div>
-    <h2>{ekko}</h2>
+    <div>
+      <Link to={NAV_LINKS.REDUX_DEMO.to}>{NAV_LINKS.REDUX_DEMO.name}</Link>
+    </div>
+    <div>
+      <Link to={NAV_LINKS.CONTEXT_DEMO.to}>{NAV_LINKS.CONTEXT_DEMO.name}</Link>
+    </div>
   </div>
 );
 

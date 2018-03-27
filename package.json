@@ -15,9 +15,9 @@
     "precommit": "lint-staged",
     "lint:eslint": "eslint src config docs/src",
     "lint:prettier":
-      "prettier-check '{src,config,docs/src}/**/*.{js,mjs,json,md}'",
+      "prettier-check '{src,config,docs/src}/**/*.{js,mjs,md}'",
     "lint": "yarn lint:eslint && yarn lint:prettier",
-    "format": "prettier '{src,config,docs/src}/**/*.{js,mjs,json,md}' --write",
+    "format": "prettier '{src,config,docs/src}/**/*.{js,mjs,md}' --write",
     "test": "NODE_ENV=test jest --watch",
     "coverage": "NODE_ENV=test jest --coverage",
     "prebuild": "yarn lint && yarn flow && rm -rf dist",
@@ -30,11 +30,12 @@
     "start": "node ./config/serveDocs.js"
   },
   "lint-staged": {
-    "*.{js,mjs,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,mjs,css,md}": ["prettier --write", "git add"]
   },
   "prettier": {
     "singleQuote": true,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "parser": "flow"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -81,14 +82,18 @@
     "jest-emotion": "^9.0.0",
     "json-loader": "^0.5.7",
     "lint-staged": "^7.0.0",
+    "material-ui": "^1.0.0-beta.38",
     "prettier": "^1.11.1",
     "prettier-check": "^2.0.0",
+    "prop-types": "^15.6.1",
     "react": "^16.3.0-alpha.3",
     "react-dom": "^16.3.0-alpha.3",
     "react-emotion": "^9.1.0",
     "react-hot-loader": "^4.0.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.2.0",
+    "redux": "^3.7.2",
     "serve": "^6.5.3",
     "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^1.2.4",

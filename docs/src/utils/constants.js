@@ -1,7 +1,7 @@
 /* @flow */
 export const APP_TITLE = 'Ekko';
 
-type NavLinkName = 'HOME' | 'ABOUT' | 'CONTACT';
+type NavLinkName = 'HOME' | 'ABOUT' | 'CONTACT' | 'REDUX_DEMO' | 'CONTEXT_DEMO';
 type NavLinkConfig = {
   to: string,
   name: string,
@@ -12,6 +12,14 @@ export const NAV_LINKS: { [key: NavLinkName]: NavLinkConfig } = {
     to: '/',
     name: 'Home',
     exact: true,
+  },
+  REDUX_DEMO: {
+    to: '/redux-demo',
+    name: 'Redux Demo',
+  },
+  CONTEXT_DEMO: {
+    to: '/context-demo',
+    name: 'Context Demo',
   },
   ABOUT: {
     to: '/about',

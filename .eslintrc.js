@@ -42,6 +42,8 @@ module.exports = {
     'react/jsx-filename-extension': 0, // enfore all .js extension
     'react/prefer-stateless-function': 0,
     'react/default-props-match-prop-types': 0,
+    'flowtype/generic-spacing': 0,
+    'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/label-has-for': [2, { required: { every: ['name'] } }],
   },
 };

@@ -1,6 +1,7 @@
 /* @flow */
+import DialogEditor from './DialogEditor';
 import Loader from './Loader';
 
-export { Loader };
+export { DialogEditor, Loader };
 
-export default { Loader };
+export default { DialogEditor, Loader };

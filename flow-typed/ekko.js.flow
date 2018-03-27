@@ -1,0 +1,36 @@
+/* @flow */
+export type EditorRender = (props: {
+  data: mixed,
+  handleChange: (newData: mixed) => void,
+}) => React.Element<any>;
+
+export type ColumnProps = {
+  valueGetter: (rowData: Object) => mixed,
+  onChange: (value: mixed, rowData: Object) => Object,
+  editor: EditorRender,
+  label: string,
+};
+
+export type Column = React.ComponentType<ColumnProps>;
+
+export type RowChangeHandler = (rowId: string, newData: Object) => void;
+
+export type GridWrapped = React.ComponentType<{
+  ids: string[],
+  onRowChange: RowChangeHandler,
+}>;
+
+export type RowProps = {
+  id: string,
+  onChange: RowChangeHandler,
+  children: React.ChildrenArray<React.Element<Column>>,
+  data: mixed,
+};
+
+export type Row = React.ComponentType<RowProps>;
+
+export type GridProps = {
+  children: React.ChildrenArray<React.Element<Column>>,
+  decorator: () => (Wrapped: GridWrapped) => React.Element<any>,
+  rowDecorator: () => (Wrapped: Row) => React.Element<any>,
+};
