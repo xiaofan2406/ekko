@@ -1,0 +1,27 @@
+[ignore]
+.*/config/.*
+.*/coverage/.*
+.*/dist/.*
+.*/node_modules/.*
+.*/__snapshots__/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.file_ext=.js
+module.file_ext=.mjs
+module.file_ext=.json
+module.use_strict=true
+experimental.const_params=true
+module.name_mapper='^assets' -> '<PROJECT_ROOT>/docs/src/assets'
+module.name_mapper='^components' -> '<PROJECT_ROOT>/docs/src/components'
+module.name_mapper='^factories' -> '<PROJECT_ROOT>/docs/src/factories'
+module.name_mapper='^ekko' -> '<PROJECT_ROOT>/src'
+module.name_mapper='^styles' -> '<PROJECT_ROOT>/docs/src/styles'
+module.name_mapper='^utils' -> '<PROJECT_ROOT>/docs/src/utils'
+module.name_mapper='^widgets' -> '<PROJECT_ROOT>/docs/src/widgets'
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe

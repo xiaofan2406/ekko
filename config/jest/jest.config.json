@@ -1,0 +1,21 @@
+{
+  "collectCoverageFrom": ["src/**/*.{js,mjs}"],
+  "setupFiles": ["<rootDir>/config/jest/enzymeAdapter.js"],
+  "setupTestFrameworkScriptFile": "<rootDir>/config/jest/frameworkSetup.js",
+  "snapshotSerializers": ["enzyme-to-json/serializer"],
+  "testMatch": ["<rootDir>/src/**/__tests__/**/*.spec.{js,mjs}"],
+  "testEnvironment": "jsdom",
+  "testURL": "http://localhost",
+  "transform": {
+    "^.+\\.(js|mjs)$": "babel-jest"
+  },
+  "moduleFileExtensions": ["js", "mjs", "json"],
+  "coverageThreshold": {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": 80
+    }
+  }
+}

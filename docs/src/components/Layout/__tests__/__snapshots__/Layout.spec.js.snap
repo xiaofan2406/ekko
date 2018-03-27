@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout component matches snapshot 1`] = `
+.emotion-0 {
+  font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  color: #242729;
+}
+
+.emotion-0 p {
+  margin: 0px 0px 1em 0px;
+}
+
+.emotion-0 > .main {
+  width: 780px;
+  padding: 0px 12px;
+  margin: 36px auto;
+}
+
+<div
+  className="emotion-0"
+>
+  <Brand />
+  <div
+    className="main"
+  >
+    <div>
+      child
+    </div>
+  </div>
+</div>
+`;

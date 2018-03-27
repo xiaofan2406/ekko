@@ -1,0 +1,8 @@
+config/
+docs/
+flow-typed/
+src/
+.babelrc.js
+.eslintrc.js
+.flowconfig
+yarn.lock
