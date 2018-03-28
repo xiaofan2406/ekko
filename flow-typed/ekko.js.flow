@@ -27,6 +27,13 @@ export type RowProps = {
   data: mixed,
 };
 
+export type RecordProps = {
+  id: string,
+  onChange: RowChangeHandler,
+  children: React.ChildrenArray<React.Element<Column>>,
+  data: mixed,
+};
+
 export type Row = React.ComponentType<RowProps>;
 
 export type GridProps = {

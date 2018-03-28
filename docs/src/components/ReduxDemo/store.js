@@ -31,6 +31,8 @@ const updateRow = (id, rowData) => ({
 
 const getIds = state => state.ids;
 
+const getById = state => state.byId;
+
 const store = createStore(reducer);
 
 export const actions = {
@@ -39,6 +41,7 @@ export const actions = {
 
 export const selectors = {
   getIds,
+  getById,
 };
 
 export default store;

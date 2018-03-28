@@ -1,51 +1,51 @@
 /* @flow */
 import * as React from 'react';
 import Row, { GridRow } from './Row';
+import { GridProvider, GridConsumer } from './Context';
 
 class Grid extends React.Component<GridProps> {
+  componentWillReceiveProps(nextProps: GridProps) {
+    console.table(nextProps.children);
+    console.table(this.props.children);
+    Object.keys(nextProps).forEach(key => {
+      if (nextProps[key] !== this.props[key]) {
+        console.log(`${key} changed`);
+      }
+    });
+  }
+
+  shouldComponentUpdate(nextProps: GridProps) {
+    return Object.keys(nextProps)
+      .filter(key => key === 'initialRecordsById')
+      .some(key => nextProps[key] !== this.props[key]);
+  }
+
+  renderRow = id => (
+    <GridConsumer key={id}>
+      {({ byId, updateRecord }) => (
+        <Row id={id} data={byId[id]} onChange={updateRecord}>
+          {this.props.children}
+        </Row>
+      )}
+    </GridConsumer>
+  );
+
   render() {
-    const {
-      ids,
-      onRowChange,
-      children,
-      rowEnhancer,
-      rowDecorator,
-    } = this.props;
+    const { initialRecordsById, onRecordChange, children } = this.props;
     console.log('render Grid');
     return (
-      <div className="this-is-grid">
-        <div className="this-is-header">
-          {React.Children.map(children, child => (
-            <span>{child.props.label}</span>
-          ))}
+      <GridProvider byId={initialRecordsById} onRecordChange={onRecordChange}>
+        <div className="this-is-grid">
+          <div className="this-is-header">
+            {React.Children.map(children, child => (
+              <span>{child.props.label}</span>
+            ))}
+          </div>
+          <GridConsumer>
+            {({ byId }) => Object.keys(byId).map(this.renderRow)}
+          </GridConsumer>
         </div>
-        {ids.map(id => {
-          // For both hoc usage and rener-prop usage
-          if (rowEnhancer) {
-            console.log('using rowEnhancer');
-            return (
-              <GridRow key={id}>
-                {rowEnhancer(({ data }) => (
-                  <Row data={data[id]} id={id} onChange={onRowChange}>
-                    {children}
-                  </Row>
-                ))}
-              </GridRow>
-            );
-          }
-
-          if (rowDecorator) {
-            console.log('using rowDecorator');
-            const EnhancedRow = rowDecorator()(Row);
-            return (
-              <EnhancedRow key={id} id={id} onChange={onRowChange}>
-                {children}
-              </EnhancedRow>
-            );
-          }
-          return null;
-        })}
-      </div>
+      </GridProvider>
     );
   }
 }
