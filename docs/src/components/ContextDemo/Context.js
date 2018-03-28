@@ -13,6 +13,7 @@ export class GridProvider extends React.Component {
       1: { name: 'hei', gender: 'wha' },
       2: { name: 'lol', gender: 'yea' },
     },
+    ids: ['1', '2'],
   };
 
   updateRow = (rowId, rowData) => {
@@ -27,7 +28,10 @@ export class GridProvider extends React.Component {
   render() {
     return (
       <GridContext.Provider
-        value={{ ...this.state, updateRow: this.updateRow }}
+        value={{
+          ...this.state,
+          updateRow: this.updateRow,
+        }}
       >
         {this.props.children}
       </GridContext.Provider>

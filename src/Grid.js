@@ -4,14 +4,57 @@ import Row from './Row';
 import Static from './Static';
 
 class Grid extends React.Component<GridProps> {
+  componentWillReceiveProps(nextProps) {
+    Object.keys(nextProps).forEach(key => {
+      if (nextProps[key] !== this.props[key]) {
+        console.log(`${key} changed`);
+      }
+    });
+  }
+
+  renderRows = () => {
+    const { enhancer, decorator } = this.props;
+    // TODO warning for conflics?
+    if (enhancer) {
+      return this.renderEnhancedRows();
+    }
+    if (decorator) {
+      return this.renderDecoratedRows();
+    }
+    // TODO take props.data and simply display it?
+    return null;
+  };
+
+  // for render-prop usage, e.g. new context
+  // not really working due to any new reference will re-render
+  renderEnhancedRows = () => {
+    const { ids, enhancer, onRowChange, children } = this.props;
+    return ids.map(id => (
+      <Static key={id}>
+        {enhancer(({ data }) => (
+          <Row data={data[id]} id={id} onRowChange={onRowChange}>
+            {children}
+          </Row>
+        ))}
+      </Static>
+    ));
+  };
+
+  // for higher-order-component usage, e.g. react-redux
+  renderDecoratedRows = () => {
+    const { ids, decorator, onRowChange, children } = this.props;
+    return ids.map(id => {
+      const DecoratedRow = decorator()(Row);
+      return (
+        <DecoratedRow key={id} id={id} onRowChange={onRowChange}>
+          {children}
+        </DecoratedRow>
+      );
+    });
+  };
+
   render() {
-    const {
-      ids,
-      onRowChange,
-      children,
-      rowEnhancer,
-      rowDecorator,
-    } = this.props;
+    const { children } = this.props;
     console.log('render Grid');
     return (
       <div className="this-is-grid">
@@ -20,32 +63,7 @@ class Grid extends React.Component<GridProps> {
             <span>{child.props.label}</span>
           ))}
         </div>
-        {ids.map(id => {
-          // for children as function usage
-          if (rowEnhancer) {
-            return (
-              <Static key={id}>
-                {rowEnhancer(({ data }) => (
-                  <Row data={data[id]} id={id} onChange={onRowChange}>
-                    {children}
-                  </Row>
-                ))}
-              </Static>
-            );
-          }
-          // for higher-order-component usage
-          if (rowDecorator) {
-            const EnhancedRow = rowDecorator()(Row);
-            return (
-              <EnhancedRow key={id} id={id} onChange={onRowChange}>
-                {children}
-              </EnhancedRow>
-            );
-          }
-
-          // TODO take props.data and simply display it?
-          return null;
-        })}
+        {this.renderRows()}
       </div>
     );
   }

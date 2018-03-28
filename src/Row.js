@@ -4,14 +4,15 @@ import Cell from './Cell';
 
 class Row extends React.Component<RowProps> {
   render() {
-    const { id, children, onChange, data } = this.props;
+    const { id, children, onRowChange, data } = this.props;
+    console.log('render Row', id);
     return (
       <div className="this-is-a-row">
         {React.Children.map(children, child => (
           <Cell
             data={child.props.valueGetter(data)}
             onChange={newValue =>
-              onChange(id, child.props.onChange(newValue, data))
+              onRowChange(id, child.props.onChange(newValue, data))
             }
             editor={child.props.editor}
           />

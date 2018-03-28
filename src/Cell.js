@@ -8,13 +8,13 @@ class Cell extends React.Component {
   // This is needed, because Grid passes `onChange` as an inline array func
   // This should shallow compare all props/state except `props.onChange`
   // TODO investigate how Grid can "cache" onChange, and just use PureComponent here
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextProps.data !== this.props.data ||
-      nextProps.editor !== this.props.editor ||
-      nextState.isEditing !== this.state.isEditing
-    );
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (
+  //     nextProps.data !== this.props.data ||
+  //     nextProps.editor !== this.props.editor ||
+  //     nextState.isEditing !== this.state.isEditing
+  //   );
+  // }
 
   handleChange = newValue => {
     this.props.onChange(newValue);

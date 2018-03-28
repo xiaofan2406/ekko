@@ -13,24 +13,25 @@ export type ColumnProps = {
 
 export type Column = React.ComponentType<ColumnProps>;
 
-export type RowChangeHandler = (rowId: string, newData: Object) => void;
+export type ColumnChildren = React.ChildrenArray<React.Element<Column>>;
 
-export type GridWrapped = React.ComponentType<{
-  ids: string[],
-  onRowChange: RowChangeHandler,
-}>;
+export type RowChangeHandler = (rowId: string, newData: Object) => void;
 
 export type RowProps = {
   id: string,
-  onChange: RowChangeHandler,
-  children: React.ChildrenArray<React.Element<Column>>,
+  children: ColumnChildren,
+  onRowChange: RowChangeHandler,
   data: mixed,
 };
+
+export type RowRender = (props: { data: Object }) => React.Element<any>;
 
 export type Row = React.ComponentType<RowProps>;
 
 export type GridProps = {
-  children: React.ChildrenArray<React.Element<Column>>,
-  decorator: () => (Wrapped: GridWrapped) => React.Element<any>,
-  rowDecorator: () => (Wrapped: Row) => React.Element<any>,
+  ids: string[],
+  onRowChange: RowChangeHandler,
+  children: ColumnChildren,
+  enhancer: (render: RowRender) => React.Element<any>,
+  decorator: () => (Wrapped: Row) => React.Element<any>,
 };

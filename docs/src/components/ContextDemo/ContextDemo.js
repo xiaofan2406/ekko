@@ -5,7 +5,7 @@ import { DialogEditor } from 'widgets';
 import { Grid, Column } from 'ekko';
 import { GridProvider, GridConsumer } from './Context';
 
-const rowEnhancer = render => (
+const enhancer = render => (
   <GridConsumer>{({ byId }) => render({ data: byId })}</GridConsumer>
 );
 
@@ -16,7 +16,7 @@ const ContextDemo = () => (
         <Grid
           ids={Object.keys(byId)}
           onRowChange={updateRow}
-          rowEnhancer={rowEnhancer}
+          enhancer={enhancer}
         >
           <Column
             label="Name"

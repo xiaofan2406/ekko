@@ -21,7 +21,7 @@ class ReduxExample extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedGrid rowDecorator={() => connect(mapStateForCell)}>
+        <ConnectedGrid decorator={() => connect(mapStateForCell)}>
           <Column
             label="Name"
             valueGetter={rowData => rowData.name}
