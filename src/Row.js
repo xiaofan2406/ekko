@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* @flow */
 import React from 'react';
 import Cell from './Cell';
@@ -19,16 +18,6 @@ class Row extends React.Component<RowProps> {
         ))}
       </div>
     );
-  }
-}
-
-export class GridRow extends React.Component {
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    return this.props.children;
   }
 }
 

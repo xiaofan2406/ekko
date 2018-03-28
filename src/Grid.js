@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react';
-import Row, { GridRow } from './Row';
+import Row from './Row';
+import Static from './Static';
 
 class Grid extends React.Component<GridProps> {
   render() {
@@ -20,22 +21,20 @@ class Grid extends React.Component<GridProps> {
           ))}
         </div>
         {ids.map(id => {
-          // For both hoc usage and rener-prop usage
+          // for children as function usage
           if (rowEnhancer) {
-            console.log('using rowEnhancer');
             return (
-              <GridRow key={id}>
+              <Static key={id}>
                 {rowEnhancer(({ data }) => (
                   <Row data={data[id]} id={id} onChange={onRowChange}>
                     {children}
                   </Row>
                 ))}
-              </GridRow>
+              </Static>
             );
           }
-
+          // for higher-order-component usage
           if (rowDecorator) {
-            console.log('using rowDecorator');
             const EnhancedRow = rowDecorator()(Row);
             return (
               <EnhancedRow key={id} id={id} onChange={onRowChange}>
@@ -43,6 +42,8 @@ class Grid extends React.Component<GridProps> {
               </EnhancedRow>
             );
           }
+
+          // TODO take props.data and simply display it?
           return null;
         })}
       </div>
