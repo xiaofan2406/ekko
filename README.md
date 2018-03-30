@@ -19,6 +19,15 @@ Ekko
 [prettier-badge]: https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square
 [prettier]: https://github.com/prettier/prettier
 
+## TODO
+
+* [x] ignore Context usage for now
+* [ ] Cell api, update value, perf check
+* [ ] Undo
+* [ ] Cell level action
+* [ ] Row level action
+* [ ] Worry about CSS
+
 ## Installing / Getting started
 
 A quick introduction of the minimal setup you need to get a hello world up &

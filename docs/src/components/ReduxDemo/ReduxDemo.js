@@ -25,24 +25,24 @@ class ReduxExample extends React.Component {
           <Column
             label="Name"
             valueGetter={rowData => rowData.name}
-            onChange={(newValue, rowData) => ({ ...rowData, name: newValue })}
-            editor={({ data, handleChange }) => (
-              <DialogEditor data={data} onChange={handleChange} />
+            onChange={newValue => rowData => ({ ...rowData, name: newValue })}
+            editor={({ value, handleChange }) => (
+              <DialogEditor data={value} onChange={handleChange} />
             )}
           />
           <Column
             label="Gender"
             valueGetter={rowData => rowData.gender}
-            onChange={(newValue, rowData) => ({
+            onChange={newValue => rowData => ({
               ...rowData,
               gender: newValue,
             })}
-            editor={({ data, handleChange }) => {
+            editor={({ value, handleChange }) => {
               let input;
               return (
                 <span>
                   <input
-                    defaultValue={data}
+                    defaultValue={value}
                     ref={ref => {
                       input = ref;
                     }}

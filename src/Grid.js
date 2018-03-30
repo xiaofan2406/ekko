@@ -4,14 +4,6 @@ import Row from './Row';
 import Static from './Static';
 
 class Grid extends React.Component<GridProps> {
-  componentWillReceiveProps(nextProps) {
-    Object.keys(nextProps).forEach(key => {
-      if (nextProps[key] !== this.props[key]) {
-        console.log(`${key} changed`);
-      }
-    });
-  }
-
   renderRows = () => {
     const { enhancer, decorator } = this.props;
     // TODO warning for conflics?

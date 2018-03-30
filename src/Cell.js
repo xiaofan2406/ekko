@@ -1,13 +1,13 @@
 import React from 'react';
 
-class Cell extends React.Component {
+class Cell extends React.PureComponent {
   state = {
     isEditing: false,
   };
 
-  // This is needed, because Grid passes `onChange` as an inline array func
+  // This is needed, because Row passes `onChange` as an inline array func
   // This should shallow compare all props/state except `props.onChange`
-  // TODO investigate how Grid can "cache" onChange, and just use PureComponent here
+  // TODO investigate how Row can "cache" onChange, and just use PureComponent here
   // shouldComponentUpdate(nextProps, nextState) {
   //   return (
   //     nextProps.data !== this.props.data ||
@@ -17,7 +17,9 @@ class Cell extends React.Component {
   // }
 
   handleChange = newValue => {
-    this.props.onChange(newValue);
+    const { onChange, handleRowChange } = this.props;
+
+    handleRowChange(onChange(newValue));
     this.setState({
       isEditing: false,
     });
@@ -25,8 +27,8 @@ class Cell extends React.Component {
   };
 
   render() {
-    const { data, editor } = this.props;
-    console.log('render Cell', this.state.isEditing, data);
+    const { value, editor, handleRowChange } = this.props;
+    console.log('render Cell', this.state.isEditing, value);
 
     return (
       <span>
@@ -37,11 +39,11 @@ class Cell extends React.Component {
             });
           }}
         >
-          {JSON.stringify(data)}
+          {JSON.stringify(value)}
         </span>
         {this.state.isEditing &&
           editor({
-            data,
+            value,
             handleChange: this.handleChange,
           })}
       </span>
