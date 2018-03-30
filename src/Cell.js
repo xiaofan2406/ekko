@@ -1,22 +1,12 @@
+/* @flow */
 import React from 'react';
 
-class Cell extends React.PureComponent {
+class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
     isEditing: false,
   };
 
-  // This is needed, because Row passes `onChange` as an inline array func
-  // This should shallow compare all props/state except `props.onChange`
-  // TODO investigate how Row can "cache" onChange, and just use PureComponent here
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return (
-  //     nextProps.data !== this.props.data ||
-  //     nextProps.editor !== this.props.editor ||
-  //     nextState.isEditing !== this.state.isEditing
-  //   );
-  // }
-
-  handleChange = newValue => {
+  handleChange = (newValue: mixed) => {
     const { onChange, handleRowChange } = this.props;
 
     handleRowChange(onChange(newValue));
@@ -27,7 +17,7 @@ class Cell extends React.PureComponent {
   };
 
   render() {
-    const { value, editor, handleRowChange } = this.props;
+    const { value, editor } = this.props;
     console.log('render Cell', this.state.isEditing, value);
 
     return (

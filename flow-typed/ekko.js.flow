@@ -1,27 +1,40 @@
 /* @flow */
 export type EditorRender = (props: {
-  data: mixed,
-  handleChange: (newData: mixed) => void,
+  value: mixed,
+  handleChange: (newValue: mixed) => void,
 }) => React.Element<any>;
+
+export type CellChangeHandler = (rowData: Object) => Object;
 
 export type ColumnProps = {
   valueGetter: (rowData: Object) => mixed,
-  onChange: (value: mixed, rowData: Object) => Object,
+  onChange: (value: mixed) => CellChangeHandler,
   editor: EditorRender,
   label: string,
+};
+
+export type CellProps = {
+  value: mixed,
+  onChange: $PropertyType<ColumnProps, 'onChange'>,
+  handleRowChange: (handler: CellChangeHandler) => void,
+  editor: EditorRender,
+};
+
+export type CellState = {
+  isEditing: boolean,
 };
 
 export type Column = React.ComponentType<ColumnProps>;
 
 export type ColumnChildren = React.ChildrenArray<React.Element<Column>>;
 
-export type RowChangeHandler = (rowId: string, newData: Object) => void;
+export type RowChangeHandler = (id: string, newData: Object) => void;
 
 export type RowProps = {
   id: string,
   children: ColumnChildren,
   onRowChange: RowChangeHandler,
-  data: mixed,
+  data: Object,
 };
 
 export type RowRender = (props: { data: Object }) => React.Element<any>;

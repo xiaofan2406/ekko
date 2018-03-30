@@ -3,7 +3,7 @@ import React from 'react';
 import Cell from './Cell';
 
 class Row extends React.Component<RowProps> {
-  handleRowChange = handler => {
+  handleRowChange = (handler: CellChangeHandler) => {
     const { id, onRowChange, data } = this.props;
     onRowChange(id, handler(data));
   };
