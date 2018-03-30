@@ -49,8 +49,8 @@ class Grid extends React.Component<GridProps> {
     const { children } = this.props;
     console.log('render Grid');
     return (
-      <div className="this-is-grid">
-        <div className="this-is-header">
+      <div className="ekko-grid">
+        <div className="ekko-header">
           {React.Children.map(children, child => (
             <span>{child.props.label}</span>
           ))}

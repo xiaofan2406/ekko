@@ -31,7 +31,12 @@ class DialogEditor extends React.Component {
   render() {
     const { data } = this.props;
     return (
-      <Dialog open={this.state.open} onClose={this.handleClose}>
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={this.state.open}
+        onClose={this.handleClose}
+      >
         <TextField
           label="Name"
           defaultValue={data}

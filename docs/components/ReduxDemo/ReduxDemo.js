@@ -24,16 +24,16 @@ class ReduxExample extends React.Component<{}> {
         <ConnectedGrid decorator={() => connect(mapStateForCell)}>
           <Column
             label="Name"
-            valueGetter={rowData => rowData.name}
-            onChange={newValue => rowData => ({ ...rowData, name: newValue })}
+            getter={rowData => rowData.name}
+            updater={newValue => rowData => ({ ...rowData, name: newValue })}
             editor={({ value, handleChange }) => (
               <DialogEditor data={value} onChange={handleChange} />
             )}
           />
           <Column
             label="Gender"
-            valueGetter={rowData => rowData.gender}
-            onChange={newValue => rowData => ({
+            getter={rowData => rowData.gender}
+            updater={newValue => rowData => ({
               ...rowData,
               gender: newValue,
             })}

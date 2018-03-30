@@ -6,20 +6,24 @@ export type EditorRender = (props: {
 
 export type CellChangeHandler = (rowData: Object) => Object;
 
-export type ColumnProps = {
-  valueGetter: (rowData: Object) => mixed,
-  valueFormatter: (value: mixed) => string,
-  onChange: (value: mixed) => CellChangeHandler,
-  editor: EditorRender,
-  label: string,
-};
+export type EditorDisplay = 'inline' | 'popover' | 'dialog';
 
-export type CellProps = {
-  value: mixed,
-  onChange: $PropertyType<ColumnProps, 'onChange'>,
-  handleRowChange: (handler: CellChangeHandler) => void,
-  editor: EditorRender,
-};
+export type ColumnProps = {|
+  +getter: (rowData: Object) => mixed,
+  +updater?: (value: mixed) => CellChangeHandler,
+  +formatter?: (value: mixed) => string,
+  +editor?: EditorRender,
+  +editorDisplay?: EditorDisplay,
+  +label?: string,
+|};
+
+export type CellProps = {|
+  +value: mixed,
+  +updater: $PropertyType<ColumnProps, 'updater'>,
+  +formatter: $PropertyType<ColumnProps, 'formatter'>,
+  +editor: $PropertyType<ColumnProps, 'editor'>,
+  +handleRowChange: (handler: CellChangeHandler) => void,
+|};
 
 export type CellState = {
   isEditing: boolean,
@@ -31,12 +35,12 @@ export type ColumnChildren = React.ChildrenArray<React.Element<Column>>;
 
 export type RowChangeHandler = (id: string, newData: Object) => void;
 
-export type RowProps = {
-  id: string,
-  children: ColumnChildren,
-  onRowChange: RowChangeHandler,
-  data: Object,
-};
+export type RowProps = {|
+  +id: string,
+  +children: ColumnChildren,
+  +onRowChange: RowChangeHandler,
+  +data: Object,
+|};
 
 export type RowRender = (props: { data: Object }) => React.Element<any>;
 
@@ -51,13 +55,7 @@ export type GridProps = {
 };
 
 declare module 'ekko' {
-  declare export class Column extends React$Component<ColumnProps> {
-    static defaultProps: {
-      valueFormatter: (value: mixed) => string,
-      editor: EditorRender,
-    };
-  }
-
+  declare export var Column: React$ComponentType<ColumnProps>;
   declare export var Row: React$ComponentType<RowProps>;
   declare export var Grid: React$ComponentType<GridProps>;
 }

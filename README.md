@@ -22,7 +22,8 @@ Ekko
 ## TODO
 
 * [x] ignore Context usage for now
-* [ ] Cell api, update value, perf check
+* [x] Cell api, update value, perf check
+* [ ] Inline, Popover, Dialog buitin
 * [ ] Undo
 * [ ] Cell level action
 * [ ] Row level action

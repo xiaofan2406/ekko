@@ -20,7 +20,7 @@ const ContextDemo = () => (
         >
           <Column
             label="Name"
-            valueGetter={rowData => rowData.name}
+            getter={rowData => rowData.name}
             onChange={(newValue, rowData) => ({ ...rowData, name: newValue })}
             editor={({ data, handleChange }) => (
               <DialogEditor data={data} onChange={handleChange} />
@@ -28,7 +28,7 @@ const ContextDemo = () => (
           />
           <Column
             label="Gender"
-            valueGetter={rowData => rowData.gender}
+            getter={rowData => rowData.gender}
             onChange={(newValue, rowData) => ({
               ...rowData,
               gender: newValue,

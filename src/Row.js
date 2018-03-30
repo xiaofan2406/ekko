@@ -12,13 +12,14 @@ class Row extends React.Component<RowProps> {
     const { id, children, data } = this.props;
     console.log('render Row', id);
     return (
-      <div className="this-is-a-row">
+      <div className="ekko-row">
         {React.Children.map(children, child => (
           <Cell
-            value={child.props.valueGetter(data)}
-            onChange={child.props.onChange}
-            handleRowChange={this.handleRowChange}
+            value={child.props.getter(data)}
+            updater={child.props.updater}
+            formatter={child.props.formatter}
             editor={child.props.editor}
+            handleRowChange={this.handleRowChange}
           />
         ))}
       </div>
