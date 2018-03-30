@@ -2,10 +2,10 @@ const server = require('serve');
 const configs = require('./configs');
 
 server(configs.paths.appDist, {
-  port: configs.testProdPort,
+  port: configs.servePort,
   single: true,
 });
 
 console.log('Production server listening...');
-console.log(`http://localhost:${configs.testProdPort}`);
-console.log(`http://${configs.localIp}:${configs.testProdPort}`);
+console.log(`http://localhost:${configs.servePort}`);
+console.log(`http://${configs.ipAddress}:${configs.servePort}`);

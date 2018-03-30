@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const escape = require('escape-string-regexp');
 const common = require('./webpack.common');
-const { devServerPort, localIp, paths } = require('./configs');
+const { devServerPort, ipAddress, paths } = require('./configs');
 
 // https://github.com/facebookincubator/create-react-app/blob/master/packages/react-dev-utils/ignoredFiles.js
 const ignoredFiles = new RegExp(
@@ -80,7 +80,7 @@ module.exports = {
       ignored: ignoredFiles,
     },
     https: process.env.HTTPS === 'true',
-    host: localIp,
+    host: ipAddress,
     port: devServerPort,
   },
 };

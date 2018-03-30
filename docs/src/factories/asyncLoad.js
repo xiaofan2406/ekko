@@ -15,13 +15,21 @@ const asyncLoad = ({ importer }: AsyncLoadOptions): React.ComponentType<any> =>
       Component: null,
     };
 
-    componentWillMount() {
+    componentDidMount() {
       importer()
         .then(({ default: Component }) => {
-          this.setState({ Component });
+          if (!this.unmounted) {
+            this.setState({ Component });
+          }
         })
         .catch(console.error);
     }
+
+    componentWillUnmount() {
+      this.unmounted = true;
+    }
+
+    unmounted: boolean = false;
 
     render() {
       const { Component } = this.state;

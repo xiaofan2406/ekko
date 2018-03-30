@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const common = require('./webpack.common');
 const { paths } = require('./configs');
@@ -47,18 +47,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true,
-                sourceMap: true,
-              },
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+              sourceMap: true,
             },
-          ],
-        }),
+          },
+        ],
       },
     ],
   },
@@ -121,9 +119,9 @@ module.exports = {
         minifyURLs: true,
       },
     }),
-    new ExtractTextPlugin({
-      filename: 'css/[name].[contenthash:8].css',
-      allChunks: true,
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[chunkhash:8].css',
+      chunkFilename: 'css/[name].[chunkhash:8].chunk.css',
     }),
     new FileManagerPlugin({
       onEnd: {
@@ -137,5 +135,8 @@ module.exports = {
       },
     }),
   ],
+  performance: {
+    hints: false,
+  },
   node: common.node,
 };
