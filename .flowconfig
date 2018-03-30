@@ -6,8 +6,12 @@
 .*/__snapshots__/.*
 
 [include]
+./node_modules/nidalee/package.json
+./node_modules/nidalee/nidalee.js.flow
 
 [libs]
+./ekko.js.flow
+./node_modules/nidalee/nidalee.js.flow
 
 [lints]
 
@@ -20,7 +24,6 @@ experimental.const_params=true
 module.name_mapper='^assets' -> '<PROJECT_ROOT>/docs/assets'
 module.name_mapper='^components' -> '<PROJECT_ROOT>/docs/components'
 module.name_mapper='^factories' -> '<PROJECT_ROOT>/docs/factories'
-module.name_mapper='^ekko' -> '<PROJECT_ROOT>/src'
 module.name_mapper='^styles' -> '<PROJECT_ROOT>/docs/styles'
 module.name_mapper='^utils' -> '<PROJECT_ROOT>/docs/utils'
 module.name_mapper='^widgets' -> '<PROJECT_ROOT>/docs/widgets'

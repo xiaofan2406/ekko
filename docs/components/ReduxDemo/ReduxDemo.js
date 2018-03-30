@@ -1,6 +1,6 @@
+/* @flow */
 import React from 'react';
 import { Provider, connect } from 'react-redux';
-import Button from 'material-ui/Button';
 import { DialogEditor } from 'widgets';
 import { Grid, Column } from 'ekko';
 import store, { actions, selectors } from './store';
@@ -17,7 +17,7 @@ const ConnectedGrid = connect(mapStateForGrid, {
   onRowChange: actions.updateRow,
 })(Grid);
 
-class ReduxExample extends React.Component {
+class ReduxExample extends React.Component<{}> {
   render() {
     return (
       <Provider store={store}>
@@ -37,26 +37,6 @@ class ReduxExample extends React.Component {
               ...rowData,
               gender: newValue,
             })}
-            editor={({ value, handleChange }) => {
-              let input;
-              return (
-                <span>
-                  <input
-                    defaultValue={value}
-                    ref={ref => {
-                      input = ref;
-                    }}
-                  />
-                  <Button
-                    onClick={() => {
-                      handleChange(input.value);
-                    }}
-                  >
-                    Update
-                  </Button>
-                </span>
-              );
-            }}
           />
         </ConnectedGrid>
       </Provider>

@@ -8,6 +8,7 @@ export type CellChangeHandler = (rowData: Object) => Object;
 
 export type ColumnProps = {
   valueGetter: (rowData: Object) => mixed,
+  valueFormatter: (value: mixed) => string,
   onChange: (value: mixed) => CellChangeHandler,
   editor: EditorRender,
   label: string,
@@ -48,3 +49,15 @@ export type GridProps = {
   enhancer: (render: RowRender) => React.Element<any>,
   decorator: () => (Wrapped: Row) => React.Element<any>,
 };
+
+declare module 'ekko' {
+  declare export class Column extends React$Component<ColumnProps> {
+    static defaultProps: {
+      valueFormatter: (value: mixed) => string,
+      editor: EditorRender,
+    };
+  }
+
+  declare export var Row: React$ComponentType<RowProps>;
+  declare export var Grid: React$ComponentType<GridProps>;
+}

@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import { Editable } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -22,6 +23,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
     return (
       <span>
+        <Editable value={`${value}`} onSave={this.handleChange} inline />
         <span
           onClick={() => {
             this.setState({
