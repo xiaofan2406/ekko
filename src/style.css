@@ -8,6 +8,9 @@
   cursor: default;
   outline: none;
   border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ekko-cell:focus {
