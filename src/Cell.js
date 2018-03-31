@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Editable, Popover, Dialog, Button } from 'nidalee';
+import { Editable, Popover, Dialog } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -75,9 +75,10 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       return (
         <Popover
           open={this.state.isEditing}
-          opener={
-            <Button onDoubleClick={this.startEditing}>{this.value}</Button>
-          }
+          opener={<span onDoubleClick={this.startEditing}>{this.value}</span>}
+          tabIndex={0}
+          role="textbox"
+          className="ekko-cell"
           align="right"
           direction="bottom"
         >
@@ -94,7 +95,14 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         <Dialog
           open={this.state.isEditing}
           opener={
-            <Button onDoubleClick={this.startEditing}>{this.value}</Button>
+            <div
+              className="ekko-cell"
+              tabIndex={0}
+              role="textbox"
+              onDoubleClick={this.startEditing}
+            >
+              {this.value}
+            </div>
           }
           showOverlay
         >
@@ -108,13 +116,26 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
     if (editorDisplay === 'inline') {
       return editor ? (
-        <Editable value={this.value} onSave={this.handleChange} inline />
+        <Editable
+          value={this.value}
+          onSave={this.handleChange}
+          inline
+          className="ekko-cell"
+          tabIndex={0}
+          role="textbox"
+        />
       ) : (
-        <span>inline eidt</span>
+        <div tabIndex={0} role="textbox" className="ekko-cell">
+          inline eidt
+        </div>
       );
     }
 
-    return <span className="ekko-cell">{this.value}</span>;
+    return (
+      <div tabIndex={0} role="textbox" className="ekko-cell">
+        {this.value}
+      </div>
+    );
   }
 }
 

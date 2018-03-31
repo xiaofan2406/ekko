@@ -46,15 +46,21 @@ class Grid extends React.Component<GridProps> {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, ids } = this.props;
     console.log('render Grid');
     return (
-      <div className="ekko-grid">
-        <div className="ekko-header">
-          {React.Children.map(children, child => (
-            <span>{child.props.label}</span>
-          ))}
-        </div>
+      <div
+        className="ekko-grid"
+        style={{
+          gridTemplateColumns: `repeat(${React.Children.count(children)}, 1fr)`,
+          gridTemplateRows: `repeat(${ids.length + 1}, 1fr)`,
+        }}
+      >
+        {React.Children.map(children, child => (
+          <div className="ekko-cell" tabIndex={0} role="textbox">
+            {child.props.label}
+          </div>
+        ))}
         {this.renderRows()}
       </div>
     );

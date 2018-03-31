@@ -1,7 +1,15 @@
-.ekko-row {
-  display: table-row;
+.ekko-grid {
+  display: grid;
 }
 
 .ekko-cell {
-  display: table-cell;
+  padding: 6px;
+  margin: 0;
+  cursor: default;
+  outline: none;
+  border: 1px solid transparent;
+}
+
+.ekko-cell:focus {
+  border-color: grey;
 }
