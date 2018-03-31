@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Editable } from 'nidalee';
+import { Editable, Popover, Dialog, Button } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -51,39 +51,70 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     if (updater) {
       handleRowChange(updater(newValue));
     }
+    this.setState({
+      isEditing: false,
+    });
 
     console.log('finish editing');
   };
 
   startEditing = () => {
-    this.setState({
-      isEditing: !this.state.isEditing,
-    });
-  };
-
-  renderContent = () => {
-    const { value, editor } = this.props;
-    if ((!editor && typeof value === 'string') || typeof value === 'number') {
-      return <Editable value={this.value} onSave={this.handleChange} inline />;
+    const { editor } = this.props;
+    if (editor) {
+      this.setState({
+        isEditing: true,
+      });
     }
-
-    return (
-      <span tabIndex={0} role="textbox" onDoubleClick={this.startEditing}>
-        <span>{this.value}</span>
-        {this.state.isEditing &&
-          editor &&
-          editor({
-            value,
-            handleChange: this.handleChange,
-          })}
-      </span>
-    );
   };
 
   render() {
     console.log('render Cell');
+    const { value, editor, editorDisplay } = this.props;
 
-    return <span className="ekko-cell">{this.renderContent()}</span>;
+    if (editorDisplay === 'popover' && editor) {
+      return (
+        <Popover
+          open={this.state.isEditing}
+          opener={
+            <Button onDoubleClick={this.startEditing}>{this.value}</Button>
+          }
+          align="right"
+          direction="bottom"
+        >
+          {editor({
+            value,
+            handleChange: this.handleChange,
+          })}
+        </Popover>
+      );
+    }
+
+    if (editorDisplay === 'dialog' && editor) {
+      return (
+        <Dialog
+          open={this.state.isEditing}
+          opener={
+            <Button onDoubleClick={this.startEditing}>{this.value}</Button>
+          }
+          showOverlay
+        >
+          {editor({
+            value,
+            handleChange: this.handleChange,
+          })}
+        </Dialog>
+      );
+    }
+
+    if (editorDisplay === 'inline') {
+      return editor ? (
+        <Editable value={this.value} onSave={this.handleChange} inline />
+      ) : (
+        <span>inline eidt</span>
+      );
+    }
+
+    return <span className="ekko-cell">{this.value}</span>;
   }
 }
 

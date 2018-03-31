@@ -22,12 +22,13 @@ export type CellProps = {|
   +updater: $PropertyType<ColumnProps, 'updater'>,
   +formatter: $PropertyType<ColumnProps, 'formatter'>,
   +editor: $PropertyType<ColumnProps, 'editor'>,
+  +editorDisplay: EditorDisplay,
   +handleRowChange: (handler: CellChangeHandler) => void,
 |};
 
-export type CellState = {
+export type CellState = {|
   isEditing: boolean,
-};
+|};
 
 export type Column = React.ComponentType<ColumnProps>;
 

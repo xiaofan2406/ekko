@@ -2,8 +2,8 @@ import { createStore } from 'redux';
 
 const initialState = {
   byId: {
-    1: { name: 'hei', gender: 'wha' },
-    2: { name: 'lol', gender: 'yea' },
+    1: { name: 'Ezreal', gender: 'male', type: 'ADC' },
+    2: { name: 'Syndra', gender: 'female', type: 'Mage' },
   },
   ids: ['1', '2'],
 };

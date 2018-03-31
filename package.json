@@ -40,7 +40,7 @@
     "trailingComma": "es5"
   },
   "dependencies": {
-    "nidalee": "^0.0.4"
+    "nidalee": "^0.0.5"
   },
   "peerDependencies": {
     "react": "^16.3.0",

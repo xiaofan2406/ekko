@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react';
 import { css } from 'react-emotion';
+import { Box } from 'nidalee';
 import { theme, spacing } from 'styles';
 import Brand from './Brand';
 
@@ -8,13 +9,14 @@ const cssLayout = css`
   font-family: ${theme.fontFamily};
   font-size: ${theme.fontSize}px;
   color: ${theme.textColor};
+  min-height: 100vh;
   & p {
     margin: 0px 0px 1em 0px;
   }
   & > .main {
     width: 780px;
     padding: 0px ${spacing.internal}px;
-    margin: ${spacing.break}px auto;
+    margin: ${spacing.break}px auto 0px auto;
   }
 `;
 
@@ -23,10 +25,10 @@ type LayoutProps = {
 };
 
 const Layout = (props: LayoutProps) => (
-  <div className={cssLayout}>
+  <Box className={cssLayout} level={1}>
     <Brand />
-    <div className="main">{props.children}</div>
-  </div>
+    <Box className="main">{props.children}</Box>
+  </Box>
 );
 
 export { Layout as Component };

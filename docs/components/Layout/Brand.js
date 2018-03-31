@@ -1,6 +1,7 @@
 /* @flow */
 import React from 'react';
 import { css } from 'react-emotion';
+import { Box } from 'nidalee';
 import { fontSizes, spacing } from 'styles';
 import { APP_TITLE } from 'utils/constants';
 import logo from 'assets/logo.svg';
@@ -26,10 +27,10 @@ class Brand extends React.Component<{}> {
 
   render() {
     return (
-      <div className={cssBrand}>
+      <Box className={cssBrand}>
         <img src={logo} alt="logo" className="logo" />
         <span className="title">{APP_TITLE}</span>
-      </div>
+      </Box>
     );
   }
 }

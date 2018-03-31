@@ -1,7 +1,6 @@
 import React from 'react';
-// import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
-import { DialogEditor } from 'widgets';
+import { Box } from 'nidalee';
+import { TextEditor } from 'widgets';
 import { Grid, Column } from 'ekko';
 import { GridProvider, GridConsumer } from './Context';
 
@@ -10,54 +9,47 @@ const enhancer = render => (
 );
 
 const ContextDemo = () => (
-  <GridProvider>
-    <GridConsumer>
-      {({ byId, updateRow }) => (
-        <Grid
-          ids={Object.keys(byId)}
-          onRowChange={updateRow}
-          enhancer={enhancer}
-        >
-          <Column
-            label="Name"
-            getter={rowData => rowData.name}
-            onChange={(newValue, rowData) => ({ ...rowData, name: newValue })}
-            editor={({ data, handleChange }) => (
-              <DialogEditor data={data} onChange={handleChange} />
-            )}
-          />
-          <Column
-            label="Gender"
-            getter={rowData => rowData.gender}
-            onChange={(newValue, rowData) => ({
-              ...rowData,
-              gender: newValue,
-            })}
-            editor={({ data, handleChange }) => {
-              let input;
-              return (
-                <span>
-                  <input
-                    defaultValue={data}
-                    ref={ref => {
-                      input = ref;
-                    }}
-                  />
-                  <Button
-                    onClick={() => {
-                      handleChange(input.value);
-                    }}
-                  >
-                    Update
-                  </Button>
-                </span>
-              );
-            }}
-          />
-        </Grid>
-      )}
-    </GridConsumer>
-  </GridProvider>
+  <Box>
+    <GridProvider>
+      <GridConsumer>
+        {({ byId, updateRow }) => (
+          <Grid
+            ids={Object.keys(byId)}
+            onRowChange={updateRow}
+            enhancer={enhancer}
+          >
+            <Column
+              label="Title"
+              getter={rowData => (rowData.gender === 'female' ? 'Ms' : 'Mr')}
+            />
+            <Column
+              label="Name"
+              getter={rowData => rowData.name}
+              updater={newValue => rowData => ({ ...rowData, name: newValue })}
+              editor={TextEditor}
+              editorDisplay="popover"
+            />
+            <Column
+              label="Type"
+              getter={rowData => rowData.type}
+              updater={newValue => rowData => ({ ...rowData, type: newValue })}
+              editor={TextEditor}
+              editorDisplay="dialog"
+            />
+            <Column
+              label="Gender"
+              getter={rowData => rowData.gender}
+              updater={newValue => rowData => ({
+                ...rowData,
+                gender: newValue,
+              })}
+              editorDisplay="inline"
+            />
+          </Grid>
+        )}
+      </GridConsumer>
+    </GridProvider>
+  </Box>
 );
 
 export default ContextDemo;

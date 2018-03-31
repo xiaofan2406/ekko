@@ -19,6 +19,7 @@ class Row extends React.Component<RowProps> {
             updater={child.props.updater}
             formatter={child.props.formatter}
             editor={child.props.editor}
+            editorDisplay={child.props.editorDisplay}
             handleRowChange={this.handleRowChange}
           />
         ))}
