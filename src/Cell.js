@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Popover, Dialog, InlineEdit } from 'nidalee';
+import { Dropdown, Dialog, InlineEdit } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -47,30 +47,32 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
+  get stringifiedValue(): string {
+    const { value } = this.props;
+    return typeof value === 'string' || typeof value === 'number'
+      ? `${value}`
+      : JSON.stringify(value);
+  }
+
   renderValue = (canEdit: boolean = true) => {
     const { value, render } = this.props;
-    const displayValue = render
-      ? render(value)
-      : typeof value === 'string' || typeof value === 'number'
-        ? `${value}`
-        : JSON.stringify(value);
 
     const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
     return (
       <div tabIndex={0} role="textbox" className="ekko-cell" {...editHandler}>
-        {displayValue}
+        {render ? render(value) : this.stringifiedValue}
       </div>
     );
   };
 
   render() {
-    console.log('render Cell');
-    const { value, editor, editorDisplay } = this.props;
+    const { value, editor, editorDisplay, render } = this.props;
+    console.log('render Cell', value);
 
-    if (editorDisplay === 'popover' && editor && editor !== 'inline') {
-      // TODO Popover isnt really working correclty
+    if (editorDisplay === 'dropdown' && editor && editor !== 'inline') {
+      // TODO Dropdown isnt really working correclty
       return (
-        <Popover
+        <Dropdown
           open={this.state.isEditing}
           opener={this.renderValue()}
           tabIndex={0}
@@ -83,7 +85,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
             value,
             handleChange: this.handleChange,
           })}
-        </Popover>
+        </Dropdown>
       );
     }
 
@@ -106,16 +108,18 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       editor === 'inline' &&
       (typeof value === 'string' || typeof value === 'number')
     ) {
-      // TODO better inline edit
-      return this.renderValue();
-      // return (
-      //   <InlineEdit
-      //     defaultValue={this.value}
-      //     onSave={this.handleChange}
-      //     className="ekko-cell"
-      //   />
-      // );
+      return (
+        <InlineEdit
+          value={this.stringifiedValue}
+          render={render}
+          onSave={this.handleChange}
+          className="ekko-cell"
+          tabIndex={0}
+          role="textbox"
+        />
+      );
     }
+    // inline, but object?
 
     return this.renderValue(false);
   }

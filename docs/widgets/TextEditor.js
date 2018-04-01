@@ -9,7 +9,6 @@ type TextEditorProps = {
 };
 
 const TextEditor = ({ value, handleChange }: TextEditorProps) => {
-  console.log('render eidtor with ', value);
   let input;
   return (
     <div>

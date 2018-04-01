@@ -52,8 +52,10 @@ class Grid extends React.Component<GridProps> {
       <div
         className="ekko-grid"
         style={{
-          gridTemplateColumns: `repeat(${React.Children.count(children)}, 1fr)`,
-          gridTemplateRows: `repeat(${ids.length + 1}, 1fr)`,
+          gridTemplateColumns: `repeat(${React.Children.count(
+            children
+          )}, auto)`,
+          gridTemplateRows: `60px repeat(${ids.length}, auto)`,
         }}
       >
         {React.Children.map(children, child => (

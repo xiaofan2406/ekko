@@ -27,7 +27,7 @@ const ContextDemo = () => (
               getter={rowData => rowData.name}
               updater={newValue => rowData => ({ ...rowData, name: newValue })}
               editor={TextEditor}
-              editorDisplay="popover"
+              editorDisplay="dropdown"
             />
             <Column
               label="Type"

@@ -6,7 +6,7 @@ export type EditorRender = (props: {
 
 export type CellChangeHandler = (rowData: Object) => Object;
 
-export type EditorDisplay = 'popover' | 'dialog';
+export type EditorDisplay = 'dropdown' | 'dialog';
 
 export type ColumnProps = {|
   +getter: (rowData: Object) => mixed,

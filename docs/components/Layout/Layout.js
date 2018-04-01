@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { css } from 'react-emotion';
 import { Box } from 'nidalee';
-import { theme, spacing } from 'styles';
+import { theme } from 'styles';
 import Brand from './Brand';
 
 const cssLayout = css`
@@ -12,11 +12,6 @@ const cssLayout = css`
   min-height: 100vh;
   & p {
     margin: 0px 0px 1em 0px;
-  }
-  & > .main {
-    width: 780px;
-    padding: 0px ${spacing.internal}px;
-    margin: ${spacing.break}px auto 0px auto;
   }
 `;
 
