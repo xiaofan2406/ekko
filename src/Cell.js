@@ -9,10 +9,19 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
   componentDidMount() {
     this.validateProps();
+    const { index, value, setDataInStore } = this.props;
+    setDataInStore(index, value);
   }
 
   componentDidUpdate() {
     this.validateProps();
+  }
+
+  get stringifiedValue(): string {
+    const { value } = this.props;
+    return typeof value === 'string' || typeof value === 'number'
+      ? `${value}`
+      : JSON.stringify(value);
   }
 
   validateProps = () => {
@@ -46,13 +55,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       });
     }
   };
-
-  get stringifiedValue(): string {
-    const { value } = this.props;
-    return typeof value === 'string' || typeof value === 'number'
-      ? `${value}`
-      : JSON.stringify(value);
-  }
 
   renderValue = (canEdit: boolean = true) => {
     const { value, render } = this.props;

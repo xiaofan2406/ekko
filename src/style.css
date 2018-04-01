@@ -16,3 +16,7 @@
 .ekko-cell:focus {
   border-color: grey;
 }
+
+.ekko-cell.sortable {
+  cursor: pointer;
+}

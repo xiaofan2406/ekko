@@ -12,6 +12,7 @@ export type ColumnProps = {|
   +getter: (rowData: Object) => mixed,
   +render?: (value: mixed) => React$Node,
   +updater?: (value: mixed) => CellChangeHandler,
+  +sortable?: boolean | ((value: mixed) => boolean),
   +editor?: EditorRender | 'inline',
   +editorDisplay?: EditorDisplay,
   +label?: string,

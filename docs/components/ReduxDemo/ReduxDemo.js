@@ -57,6 +57,7 @@ class ReduxExample extends React.Component<{}> {
               getter={rowData => rowData.name}
               updater={this.makeUpdater('name')}
               editor="inline"
+              sortable
             />
             <Column
               label="Title"
