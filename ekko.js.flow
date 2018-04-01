@@ -6,13 +6,13 @@ export type EditorRender = (props: {
 
 export type CellChangeHandler = (rowData: Object) => Object;
 
-export type EditorDisplay = 'inline' | 'popover' | 'dialog';
+export type EditorDisplay = 'popover' | 'dialog';
 
 export type ColumnProps = {|
   +getter: (rowData: Object) => mixed,
   +updater?: (value: mixed) => CellChangeHandler,
   +formatter?: (value: mixed) => string,
-  +editor?: EditorRender,
+  +editor?: EditorRender | 'inline',
   +editorDisplay?: EditorDisplay,
   +label?: string,
 |};

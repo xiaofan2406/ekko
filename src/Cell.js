@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Editable, Popover, Dialog } from 'nidalee';
+import { Popover, Dialog, InlineEdit } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -71,7 +71,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     console.log('render Cell');
     const { value, editor, editorDisplay } = this.props;
 
-    if (editorDisplay === 'popover' && editor) {
+    if (editorDisplay === 'popover' && editor && editor !== 'inline') {
       return (
         <Popover
           open={this.state.isEditing}
@@ -90,7 +90,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       );
     }
 
-    if (editorDisplay === 'dialog' && editor) {
+    if (editorDisplay === 'dialog' && editor && editor !== 'inline') {
       return (
         <Dialog
           open={this.state.isEditing}
@@ -114,20 +114,16 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       );
     }
 
-    if (editorDisplay === 'inline') {
-      return editor ? (
-        <Editable
-          value={this.value}
+    if (
+      editor === 'inline' &&
+      (typeof value === 'string' || typeof value === 'number')
+    ) {
+      return (
+        <InlineEdit
+          defaultValue={this.value}
           onSave={this.handleChange}
-          inline
           className="ekko-cell"
-          tabIndex={0}
-          role="textbox"
         />
-      ) : (
-        <div tabIndex={0} role="textbox" className="ekko-cell">
-          inline eidt
-        </div>
       );
     }
 

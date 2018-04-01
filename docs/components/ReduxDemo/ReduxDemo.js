@@ -50,7 +50,7 @@ class ReduxExample extends React.Component<{}> {
                 ...rowData,
                 gender: newValue,
               })}
-              editorDisplay="inline"
+              editor="inline"
             />
           </ConnectedGrid>
         </Provider>
