@@ -69,7 +69,7 @@ class ReduxExample extends React.Component<{}> {
               getter={rowData => rowData.tags.join(',')}
               updater={newValue => rowData => ({
                 ...rowData,
-                gender: newValue,
+                tags: newValue.split(','),
               })}
               editor={TextEditor}
               editorDisplay="dialog"
