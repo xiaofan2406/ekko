@@ -10,8 +10,8 @@ export type EditorDisplay = 'popover' | 'dialog';
 
 export type ColumnProps = {|
   +getter: (rowData: Object) => mixed,
+  +render?: (value: mixed) => React$Node,
   +updater?: (value: mixed) => CellChangeHandler,
-  +formatter?: (value: mixed) => string,
   +editor?: EditorRender | 'inline',
   +editorDisplay?: EditorDisplay,
   +label?: string,
@@ -19,8 +19,8 @@ export type ColumnProps = {|
 
 export type CellProps = {|
   +value: mixed,
+  +render: $PropertyType<ColumnProps, 'render'>,
   +updater: $PropertyType<ColumnProps, 'updater'>,
-  +formatter: $PropertyType<ColumnProps, 'formatter'>,
   +editor: $PropertyType<ColumnProps, 'editor'>,
   +editorDisplay: EditorDisplay,
   +handleRowChange: (handler: CellChangeHandler) => void,
@@ -56,7 +56,7 @@ export type GridProps = {
 };
 
 declare module 'ekko' {
-  declare export var Column: React$ComponentType<ColumnProps>;
+  declare export class Column extends React$Component<ColumnProps> {}
   declare export var Row: React$ComponentType<RowProps>;
   declare export var Grid: React$ComponentType<GridProps>;
 }

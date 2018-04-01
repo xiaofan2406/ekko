@@ -25,10 +25,7 @@ class ReduxExample extends React.Component<{}> {
       <Box level={2}>
         <Provider store={store}>
           <ConnectedGrid decorator={() => connect(mapStateForCell)}>
-            <Column
-              label="Title"
-              getter={rowData => (rowData.gender === 'female' ? 'Ms' : 'Mr')}
-            />
+            <Column label="ID" getter={rowData => rowData.key} />
             <Column
               label="Name"
               getter={rowData => rowData.name}
@@ -37,19 +34,66 @@ class ReduxExample extends React.Component<{}> {
               editorDisplay="popover"
             />
             <Column
-              label="Type"
-              getter={rowData => rowData.type}
-              updater={newValue => rowData => ({ ...rowData, type: newValue })}
-              editor={TextEditor}
-              editorDisplay="dialog"
+              label="Title"
+              getter={rowData => rowData.title}
+              updater={newValue => rowData => ({ ...rowData, title: newValue })}
+              editor="inline"
             />
             <Column
-              label="Gender"
-              getter={rowData => rowData.gender}
+              label="Tags"
+              getter={rowData => rowData.tags.join(',')}
               updater={newValue => rowData => ({
                 ...rowData,
                 gender: newValue,
               })}
+              editor={TextEditor}
+              editorDisplay="dialog"
+            />
+            <Column
+              label="Icon"
+              getter={rowData => rowData.icon}
+              render={value => <img src={value} alt={value} />}
+            />
+            <Column
+              label="Description"
+              getter={rowData => rowData.description}
+              editor="inline"
+            />
+            <Column
+              label="HP"
+              getter={rowData => rowData.stats.hp}
+              editor="inline"
+            />
+            <Column
+              label="HP at level 18"
+              getter={rowData =>
+                rowData.stats.hp + 17 * rowData.stats.hpperlevel
+              }
+              editor="inline"
+            />
+            <Column
+              label="MP"
+              getter={rowData => rowData.stats.mp}
+              editor="inline"
+            />
+            <Column
+              label="MP at level 18"
+              getter={rowData =>
+                rowData.stats.mp + 17 * rowData.stats.mpperlevel
+              }
+              editor="inline"
+            />
+            <Column
+              label="AD"
+              getter={rowData => rowData.stats.attackdamage}
+              editor="inline"
+            />
+            <Column
+              label="AD at level 18"
+              getter={rowData =>
+                rowData.stats.attackdamage +
+                17 * rowData.stats.attackdamageperlevel
+              }
               editor="inline"
             />
           </ConnectedGrid>

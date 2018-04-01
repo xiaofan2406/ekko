@@ -11,13 +11,15 @@ class Row extends React.Component<RowProps> {
   render() {
     const { id, children, data } = this.props;
     console.log('render Row', id);
+
+    // TODO maybe cell props validation happens here
     return React.Children.map(children, child => (
       <Cell
         value={child.props.getter(data)}
         updater={child.props.updater}
-        formatter={child.props.formatter}
         editor={child.props.editor}
         editorDisplay={child.props.editorDisplay}
+        render={child.props.render}
         handleRowChange={this.handleRowChange}
       />
     ));

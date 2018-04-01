@@ -15,32 +15,12 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     this.validateProps();
   }
 
-  get value(): string {
-    const { value, formatter } = this.props;
-    if (formatter) {
-      return formatter(value);
-    }
-    if (
-      (!formatter && typeof value === 'string') ||
-      typeof value === 'number'
-    ) {
-      return `${value}`;
-    }
-    return JSON.stringify(value);
-  }
-
   validateProps = () => {
-    const { value, editor, formatter } = this.props;
-    if (typeof value === 'object' && !formatter) {
+    const { value, render } = this.props;
+    if (typeof value === 'object' && !render) {
       console.warn(
         'Ekko:',
-        'No formatter is specified for complex type value. `JSON.stringify` will be used'
-      );
-    }
-    if (typeof value === 'object' && !editor) {
-      console.warn(
-        'Ekko:',
-        'No editor is specified for complex type value. WHAT will be used'
+        'No render is specified for complex type value. `JSON.stringify` will be used'
       );
     }
   };
@@ -67,15 +47,32 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
+  renderValue = (canEdit: boolean = true) => {
+    const { value, render } = this.props;
+    const displayValue = render
+      ? render(value)
+      : typeof value === 'string' || typeof value === 'number'
+        ? `${value}`
+        : JSON.stringify(value);
+
+    const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
+    return (
+      <div tabIndex={0} role="textbox" className="ekko-cell" {...editHandler}>
+        {displayValue}
+      </div>
+    );
+  };
+
   render() {
     console.log('render Cell');
     const { value, editor, editorDisplay } = this.props;
 
     if (editorDisplay === 'popover' && editor && editor !== 'inline') {
+      // TODO Popover isnt really working correclty
       return (
         <Popover
           open={this.state.isEditing}
-          opener={<span onDoubleClick={this.startEditing}>{this.value}</span>}
+          opener={this.renderValue()}
           tabIndex={0}
           role="textbox"
           className="ekko-cell"
@@ -94,16 +91,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       return (
         <Dialog
           open={this.state.isEditing}
-          opener={
-            <div
-              className="ekko-cell"
-              tabIndex={0}
-              role="textbox"
-              onDoubleClick={this.startEditing}
-            >
-              {this.value}
-            </div>
-          }
+          opener={this.renderValue()}
           showOverlay
         >
           {editor({
@@ -118,20 +106,18 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       editor === 'inline' &&
       (typeof value === 'string' || typeof value === 'number')
     ) {
-      return (
-        <InlineEdit
-          defaultValue={this.value}
-          onSave={this.handleChange}
-          className="ekko-cell"
-        />
-      );
+      // TODO better inline edit
+      return this.renderValue();
+      // return (
+      //   <InlineEdit
+      //     defaultValue={this.value}
+      //     onSave={this.handleChange}
+      //     className="ekko-cell"
+      //   />
+      // );
     }
 
-    return (
-      <div tabIndex={0} role="textbox" className="ekko-cell">
-        {this.value}
-      </div>
-    );
+    return this.renderValue(false);
   }
 }
 

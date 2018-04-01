@@ -1,11 +1,12 @@
 import { createStore } from 'redux';
+import champions from './lolChampions.json';
 
 const initialState = {
-  byId: {
-    1: { name: 'Ezreal', gender: 'male', type: 'ADC' },
-    2: { name: 'Syndra', gender: 'female', type: 'Mage' },
-  },
-  ids: ['1', '2'],
+  byId: champions.reduce((byId, champion) => {
+    byId[champion.id] = champion;
+    return byId;
+  }, {}),
+  ids: champions.map(champion => champion.id),
 };
 
 const reducer = (state = initialState, action) => {
