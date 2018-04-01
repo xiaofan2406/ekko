@@ -69,7 +69,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
   render() {
     const { value, editor, editorDisplay, render } = this.props;
-    console.log('render Cell', value);
+    // console.log('render Cell', value);
 
     if (editorDisplay === 'dropdown' && editor && editor !== 'inline') {
       // TODO Dropdown isnt really working correclty

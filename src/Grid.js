@@ -6,19 +6,21 @@ import Static from './Static';
 import HeaderCell from './HeaderCell';
 
 type GridState = {
-  sortBy: number,
+  ids: string[],
+  sortIndex: number,
+  sortOrder: number,
 };
 
 class Grid extends React.Component<GridProps, GridState> {
   state = {
     ids: this.props.ids,
     sortIndex: -1,
-    sortDesc: false,
+    sortOrder: 1,
   };
 
   // keep data in Grid for calculations not rendering
   setDataInStore = (id: string, index: number, data: Object) => {
-    console.log('setting store', id);
+    // console.log('setting store', id);
     this.store[id][index] = data;
   };
 
@@ -29,6 +31,14 @@ class Grid extends React.Component<GridProps, GridState> {
 
   handleSort = (index: number) => {
     console.log('will sort by index', index);
+    if (this.state.sortOrder % 3 === 0) {
+      console.log('reset sort');
+      return this.setState(prevState => ({
+        ids: this.props.ids,
+        sortIndex: -1,
+        sortOrder: prevState.sortOrder + 1,
+      }));
+    }
     const sorted = sortBy(
       Object.keys(this.store).map(id => ({
         id,
@@ -36,10 +46,12 @@ class Grid extends React.Component<GridProps, GridState> {
       })),
       'value'
     ).map(config => config.id);
-    this.setState({
-      ids: sorted,
-      sortDesc: !this.state.sortDesc,
-    });
+
+    return this.setState(prevState => ({
+      ids: prevState.sortOrder % 3 === 1 ? sorted : sorted.reverse(),
+      sortIndex: index,
+      sortOrder: prevState.sortOrder + 1,
+    }));
   };
 
   renderRows = () => {
@@ -92,7 +104,7 @@ class Grid extends React.Component<GridProps, GridState> {
 
   render() {
     const { children } = this.props;
-    const { ids } = this.state;
+    const { ids, sortIndex, sortOrder } = this.state;
     console.log('render Grid');
     return (
       <div
@@ -108,8 +120,9 @@ class Grid extends React.Component<GridProps, GridState> {
           <HeaderCell
             label={child.props.label}
             index={index}
-            sortable={!!child.props.sortable}
             onSort={this.handleSort}
+            sortable={!!child.props.sortable}
+            sortStatus={sortIndex === index ? sortOrder % 3 : 1}
           />
         ))}
         {this.renderRows()}

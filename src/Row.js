@@ -3,19 +3,6 @@ import React from 'react';
 import Cell from './Cell';
 
 class Row extends React.Component<RowProps> {
-  shouldComponentUpdate(nextProps: RowProps) {
-    Object.keys(nextProps).forEach(key => {
-      if (nextProps[key] !== this.props[key]) {
-        console.log(`${key} is different`);
-      }
-    });
-    return true;
-  }
-
-  componentWillUnmount() {
-    console.log('imgone');
-  }
-
   setDataInStore = (index: number, data: mixed) => {
     const { id } = this.props;
     this.props.setDataInStore(id, index, data);
