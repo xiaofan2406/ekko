@@ -1,5 +1,7 @@
 /* @flow */
 import * as React from 'react';
+import { cx } from 'react-emotion';
+import { cssCell } from './styles';
 
 type HeaderCellProps = {
   label: $PropertyType<ColumnProps, 'label'>,
@@ -29,14 +31,9 @@ class HeaderCell extends React.Component<HeaderCellProps, HeaderCellState> {
 
   render() {
     const { sortable, label, sortOrder } = this.props;
-    // console.log('render header cell', sortable, index);
-    const classNames = ['ekko-cell', sortable && 'sortable']
-      .filter(Boolean)
-      .join(' ')
-      .trim();
     return (
       <div
-        className={classNames}
+        className={cx([cssCell, { sortable }])}
         tabIndex={0}
         role="textbox"
         onClick={this.handleSort}

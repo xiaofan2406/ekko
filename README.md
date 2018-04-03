@@ -1,6 +1,6 @@
 # Ekko
 
-Ekko
+Excel like Grid in React
 
 [![Build Status][build-badge]][build]
 [![Version Status][version-badge]][version]
@@ -23,11 +23,14 @@ Ekko
 
 * [x] ignore Context usage for now
 * [x] Cell api, update value, perf check
-* [ ] Inline, Dropdown, Dialog buitin
+* [x] Inline, Dropdown, Dialog buitin
+* [ ] Improve sorting!
 * [ ] Undo
 * [ ] Cell level action
 * [ ] Row level action
 * [ ] Worry about CSS
+
+- Redux Demo: https://codesandbox.io/s/pwrqkw598j
 
 ## Installing / Getting started
 

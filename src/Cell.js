@@ -1,6 +1,7 @@
 /* @flow */
 import React from 'react';
 import { Dropdown, Dialog, InlineEdit, Button } from 'nidalee';
+import { cssCell } from './styles';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
@@ -87,7 +88,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
     const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
     return (
-      <div className="ekko-cell-editor" {...editHandler}>
+      <div className="value" {...editHandler}>
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
@@ -103,9 +104,9 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         <Dropdown
           expand={this.state.isEditing}
           expander={this.renderValue()}
-          className="ekko-cell"
           align="right"
           direction="bottom"
+          className="editor"
         >
           {editor({
             value,
@@ -121,6 +122,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
           open={this.state.isEditing}
           opener={this.renderValue()}
           showOverlay
+          className="editor"
         >
           {editor({
             value,
@@ -139,7 +141,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
           value={this.stringifiedValue}
           render={render}
           onSave={this.handleChange}
-          className="ekko-cell"
+          className="editor"
         />
       );
     }
@@ -158,7 +160,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         trigger="onClick"
         onExpand={this.openMenu}
         onCollapse={this.closeMenu}
-        className="ekko-cell-menu"
+        className="menu"
         align="right"
         direction="bottom"
       >
@@ -169,7 +171,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
   render() {
     return (
-      <div tabIndex={0} role="textbox" className="ekko-cell">
+      <div tabIndex={0} role="textbox" className={cssCell}>
         {this.renderEditor()}
         {this.renderActions()}
       </div>

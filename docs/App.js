@@ -6,7 +6,6 @@ import { Layout, Home, Navigation, ContextDemo, ReduxDemo } from 'components';
 import { asyncLoad } from 'factories';
 import 'styles/reset.css';
 import 'styles/animation.css';
-import 'ekko/style.css';
 
 const App = () => (
   <BrowserRouter>

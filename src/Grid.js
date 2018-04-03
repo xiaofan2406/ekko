@@ -4,6 +4,7 @@ import orderBy from 'lodash.orderby';
 import Row from './Row';
 import Static from './Static';
 import HeaderCell from './HeaderCell';
+import { cssGrid } from './styles';
 
 class Grid extends React.Component<GridProps, GridState> {
   state = {
@@ -111,7 +112,7 @@ class Grid extends React.Component<GridProps, GridState> {
     console.log('render Grid');
     return (
       <div
-        className="ekko-grid"
+        className={cssGrid}
         style={{
           gridTemplateColumns: `repeat(${React.Children.count(
             children
