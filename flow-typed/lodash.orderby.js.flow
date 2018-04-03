@@ -1,0 +1,14 @@
+/* @flow */
+declare module 'lodash.orderby' {
+  declare type _Iteratee<T> = (
+    item: T,
+    index: number,
+    array: ?Array<T>
+  ) => mixed;
+  declare type Iteratee<T> = _Iteratee<T> | Object | string;
+  declare module.exports: <T>(
+    array: $ReadOnlyArray<T>,
+    iteratees?: ?$ReadOnlyArray<Iteratee<T>> | ?string,
+    orders?: ?$ReadOnlyArray<'asc' | 'desc'> | ?string
+  ) => Array<T>;
+}

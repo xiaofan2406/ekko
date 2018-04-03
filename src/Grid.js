@@ -73,7 +73,12 @@ class Grid extends React.Component<GridProps, GridState> {
     return ids.map(id => (
       <Static key={id}>
         {enhancer(({ data }) => (
-          <Row data={data[id]} id={id} onRowChange={onRowChange}>
+          <Row
+            data={data[id]}
+            id={id}
+            onRowChange={onRowChange}
+            storeData={this.storeData}
+          >
             {children}
           </Row>
         ))}
