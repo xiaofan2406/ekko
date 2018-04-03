@@ -5,13 +5,14 @@ import { Dropdown, Dialog, InlineEdit, Button } from 'nidalee';
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
     isEditing: false,
+    isMenuOpen: false,
     previousValue: this.props.value,
   };
 
   componentDidMount() {
     this.validateProps();
-    const { index, value, setDataInStore } = this.props;
-    setDataInStore(index, value);
+    const { index, value, storeValue } = this.props;
+    storeValue(index, value);
   }
 
   componentDidUpdate() {
@@ -64,6 +65,16 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     if (updater && handleRowChange) {
       handleRowChange(updater(this.state.previousValue));
     }
+    this.setState({
+      isMenuOpen: false,
+    });
+  };
+
+  openMenu = () => {
+    console.log('oepn');
+    this.setState({
+      isMenuOpen: true,
+    });
   };
 
   renderValue = (canEdit: boolean = true) => {
@@ -143,9 +154,11 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
   renderActions = () => {
     const { updater } = this.props;
+    const { isMenuOpen } = this.state;
     return updater ? (
       <Dropdown
-        opener="..."
+        open={isMenuOpen}
+        opener={<Button onClick={this.openMenu}>...</Button>}
         tabIndex={0}
         role="button"
         className="ekko-cell-menu"

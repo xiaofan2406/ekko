@@ -12,18 +12,18 @@ class Grid extends React.Component<GridProps, GridState> {
     sortOrder: 'none',
   };
 
-  // keep data in Grid for calculations not rendering
-  setDataInStore = (id: string, index: number, data: Object) => {
-    // console.log('setting store', id);
-    this.store[id][index] = data;
-  };
-
   getNextSortOrder = (index: number): GridSortOrder =>
     ({
       asc: 'desc',
       desc: 'none',
       none: 'asc',
     }[index === this.state.sortIndex ? this.state.sortOrder : 'none']);
+
+  // keep data in Grid for calculations not rendering
+  storeData = (id: string, index: number, value: mixed) => {
+    // console.log('setting store', id);
+    this.store[id][index] = value;
+  };
 
   store = this.props.ids.reduce((byId, id) => {
     byId[id] = [];
@@ -92,7 +92,7 @@ class Grid extends React.Component<GridProps, GridState> {
           key={id}
           id={id}
           onRowChange={onRowChange}
-          setDataInStore={this.setDataInStore}
+          storeData={this.storeData}
         >
           {children}
         </DecoratedRow>

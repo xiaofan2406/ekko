@@ -23,12 +23,15 @@ export type CellProps = {|
   +render: $PropertyType<ColumnProps, 'render'>,
   +updater: $PropertyType<ColumnProps, 'updater'>,
   +editor: $PropertyType<ColumnProps, 'editor'>,
-  +editorDisplay: EditorDisplay,
+  +editorDisplay: $PropertyType<ColumnProps, 'editorDisplay'>,
   +handleRowChange: (handler: CellChangeHandler) => void,
+  +index: number,
+  +storeValue: (index: number, value: mixed) => void,
 |};
 
 export type CellState = {|
   isEditing: boolean,
+  isMenuOpen: boolean,
   previousValue: mixed,
 |};
 
@@ -43,6 +46,7 @@ export type RowProps = {|
   +children: ColumnChildren,
   +onRowChange: RowChangeHandler,
   +data: Object,
+  +storeData: (id: string, index: number, value: mixed) => void,
 |};
 
 export type RowRender = (props: { data: Object }) => React.Element<any>;

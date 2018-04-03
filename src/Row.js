@@ -3,9 +3,9 @@ import React from 'react';
 import Cell from './Cell';
 
 class Row extends React.Component<RowProps> {
-  setDataInStore = (index: number, data: mixed) => {
-    const { id } = this.props;
-    this.props.setDataInStore(id, index, data);
+  storeValue = (index: number, value: mixed) => {
+    const { id, storeData } = this.props;
+    storeData(id, index, value);
   };
 
   handleRowChange = (handler: CellChangeHandler) => {
@@ -27,7 +27,7 @@ class Row extends React.Component<RowProps> {
         editorDisplay={child.props.editorDisplay}
         handleRowChange={this.handleRowChange}
         index={index}
-        setDataInStore={this.setDataInStore}
+        storeValue={this.storeValue}
       />
     ));
   }
