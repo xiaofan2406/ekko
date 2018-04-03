@@ -1,21 +1,15 @@
 /* @flow */
 import * as React from 'react';
-import sortBy from 'lodash.sortby';
+import orderBy from 'lodash.orderby';
 import Row from './Row';
 import Static from './Static';
 import HeaderCell from './HeaderCell';
-
-type GridState = {
-  ids: string[],
-  sortIndex: number,
-  sortOrder: number,
-};
 
 class Grid extends React.Component<GridProps, GridState> {
   state = {
     ids: this.props.ids,
     sortIndex: -1,
-    sortOrder: 1,
+    sortOrder: 'none',
   };
 
   // keep data in Grid for calculations not rendering
@@ -24,34 +18,38 @@ class Grid extends React.Component<GridProps, GridState> {
     this.store[id][index] = data;
   };
 
+  getNextSortOrder = (index: number): GridSortOrder =>
+    ({
+      asc: 'desc',
+      desc: 'none',
+      none: 'asc',
+    }[index === this.state.sortIndex ? this.state.sortOrder : 'none']);
+
   store = this.props.ids.reduce((byId, id) => {
     byId[id] = [];
     return byId;
   }, {});
 
   handleSort = (index: number) => {
-    console.log('will sort by index', index);
-    if (this.state.sortOrder % 3 === 0) {
-      console.log('reset sort');
-      return this.setState(prevState => ({
-        ids: this.props.ids,
-        sortIndex: -1,
-        sortOrder: prevState.sortOrder + 1,
-      }));
-    }
-    const sorted = sortBy(
-      Object.keys(this.store).map(id => ({
-        id,
-        value: this.store[id][index],
-      })),
-      'value'
-    ).map(config => config.id);
+    const order = this.getNextSortOrder(index);
 
-    return this.setState(prevState => ({
-      ids: prevState.sortOrder % 3 === 1 ? sorted : sorted.reverse(),
+    const ordered =
+      order === 'none'
+        ? this.props.ids
+        : orderBy(
+            Object.keys(this.store).map(id => ({
+              id,
+              value: this.store[id][index],
+            })),
+            'value',
+            order
+          ).map(config => config.id);
+
+    return this.setState({
+      ids: ordered,
       sortIndex: index,
-      sortOrder: prevState.sortOrder + 1,
-    }));
+      sortOrder: order,
+    });
   };
 
   renderRows = () => {
@@ -122,7 +120,7 @@ class Grid extends React.Component<GridProps, GridState> {
             index={index}
             onSort={this.handleSort}
             sortable={!!child.props.sortable}
-            sortStatus={sortIndex === index ? sortOrder % 3 : 1}
+            sortOrder={sortIndex === index ? sortOrder : 'none'}
           />
         ))}
         {this.renderRows()}

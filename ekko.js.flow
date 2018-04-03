@@ -48,6 +48,7 @@ export type RowRender = (props: { data: Object }) => React.Element<any>;
 
 export type Row = React.ComponentType<RowProps>;
 
+export type GridSortOrder = 'asc' | 'desc' | 'none';
 export type GridProps = {
   ids: string[],
   onRowChange: RowChangeHandler,
@@ -55,6 +56,11 @@ export type GridProps = {
   enhancer: (render: RowRender) => React.Element<any>,
   decorator: () => (Wrapped: Row) => React.Element<any>,
 };
+export type GridState = {|
+  ids: string[],
+  sortIndex: number,
+  sortOrder: GridSortOrder,
+|};
 
 declare module 'ekko' {
   declare export class Column extends React$Component<ColumnProps> {}

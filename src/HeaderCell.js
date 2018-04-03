@@ -5,7 +5,7 @@ type HeaderCellProps = {
   label: $PropertyType<ColumnProps, 'label'>,
   index: number,
   sortable: boolean,
-  sortStatus: number,
+  sortOrder: GridSortOrder,
   onSort: (index: number) => void,
 };
 
@@ -28,7 +28,7 @@ class HeaderCell extends React.Component<HeaderCellProps, HeaderCellState> {
   };
 
   render() {
-    const { sortable, label, sortStatus } = this.props;
+    const { sortable, label, sortOrder } = this.props;
     // console.log('render header cell', sortable, index);
     const classNames = ['ekko-cell', sortable && 'sortable']
       .filter(Boolean)
@@ -43,7 +43,7 @@ class HeaderCell extends React.Component<HeaderCellProps, HeaderCellState> {
         onKeyDown={this.handKeyDown}
       >
         {label}
-        {sortStatus === 1 ? null : sortStatus === 2 ? '^' : 'v'}
+        {sortOrder === 'none' ? null : sortOrder === 'asc' ? '^' : 'v'}
       </div>
     );
   }

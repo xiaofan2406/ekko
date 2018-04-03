@@ -80,6 +80,7 @@ class ReduxExample extends React.Component<{}> {
               getter={rowData => rowData.stats.hp}
               updater={this.makeStatsUpdater('hp')}
               editor="inline"
+              sortable
             />
             <Column
               label="HP at level 18"

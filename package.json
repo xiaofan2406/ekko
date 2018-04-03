@@ -40,7 +40,7 @@
     "trailingComma": "es5"
   },
   "dependencies": {
-    "lodash.sortby": "^4.7.0",
+    "lodash.orderby": "^4.6.0",
     "nidalee": "^0.0.7"
   },
   "peerDependencies": {
