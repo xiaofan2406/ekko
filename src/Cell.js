@@ -101,8 +101,8 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       // TODO Dropdown isnt really working correclty
       return (
         <Dropdown
-          open={this.state.isEditing}
-          opener={this.renderValue()}
+          expand={this.state.isEditing}
+          expander={this.renderValue()}
           className="ekko-cell"
           align="right"
           direction="bottom"
@@ -153,11 +153,11 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     const { isMenuOpen } = this.state;
     return updater ? (
       <Dropdown
-        open={isMenuOpen}
-        opener={<span tabIndex={-1}>...</span>}
+        expand={isMenuOpen}
+        expander={<span tabIndex={-1}>...</span>}
         trigger="onClick"
-        onOpen={this.openMenu}
-        onClose={this.closeMenu}
+        onExpand={this.openMenu}
+        onCollapse={this.closeMenu}
         className="ekko-cell-menu"
         align="right"
         direction="bottom"

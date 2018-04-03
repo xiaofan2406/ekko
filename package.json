@@ -2,10 +2,7 @@
   "name": "ekko",
   "version": "0.0.0",
   "author": "Xiaofan Wu (https://github.com/xiaofan2406)",
-  "keywords": [
-    "ekko",
-    "react"
-  ],
+  "keywords": ["ekko", "react"],
   "repository": "xiaofan2406/ekko",
   "bugs": {
     "url": "https://github.com/xiaofan2406/ekko/issues"
@@ -14,48 +11,56 @@
   "engines": {
     "node": ">=8"
   },
+  "main": "dist/commonjs",
+  "module": "dist/es6",
   "scripts": {
     "precommit": "lint-staged",
     "lint:eslint": "eslint src config docs/src",
-    "lint:prettier": "prettier-check '{src,config,docs/src}/**/*.{js,mjs,json,md}'",
+    "lint:prettier":
+      "prettier-check '{src,config,docs/src}/**/*.{js,mjs,json,md}'",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "format": "prettier '{src,config,docs/src}/**/*.{js,mjs,json,md}' --write",
     "test": "NODE_ENV=test jest --watch",
     "coverage": "NODE_ENV=test jest --coverage",
-    "prebuild": "yarn lint && yarn flow && rm -rf dist",
-    "build": "NODE_ENV=production babel src --out-dir dist --ignore 'src/**/__tests__/'",
-    "dev": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
+    "prebuild": "yarn lint && rm -rf dist",
+    "build:commonjs":
+      "NODE_ENV=production babel src --out-dir dist/commonjs --ignore 'src/**/__tests__/'",
+    "build:es6":
+      "NODE_ENV=production MODULE=es6 babel src --out-dir dist/es6 --ignore 'src/**/__tests__/'",
+    "build": "npm run build:commonjs && npm run build:es6",
+    "dev":
+      "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
     "predocs": "rm -rf ./docs/dist",
     "docs": "NODE_ENV=production webpack --config ./config/webpack.prod.js",
-    "start": "node ./config/serveDocs.js"
+    "start": "node ./config/serveDocs.js",
+    "prepublishOnly": "yarn build",
+    "postpublish": "git push --follow-tags"
   },
   "lint-staged": {
-    "*.{js,mjs,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,mjs,css,md}": ["prettier --write", "git add"]
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "sideEffects": false,
   "dependencies": {
     "lodash.orderby": "^4.6.0",
-    "nidalee": "^0.0.7"
+    "nidalee": "^0.0.8"
   },
   "peerDependencies": {
     "react": "^16.3.0",
     "react-dom": "^16.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.42",
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-flow": "^7.0.0-beta.42",
-    "@babel/preset-react": "^7.0.0-beta.42",
+    "@babel/cli": "^7.0.0-beta.44",
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "@babel/preset-flow": "^7.0.0-beta.44",
+    "@babel/preset-react": "^7.0.0-beta.44",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^23.0.0-alpha.0",
@@ -79,12 +84,11 @@
     "file-loader": "^1.1.11",
     "filemanager-webpack-plugin": "^1.0.25",
     "flow-bin": "^0.69.0",
-    "html-webpack-plugin": "^3.0.6",
+    "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
     "jest": "^22.4.2",
     "json-loader": "^0.5.7",
-    "lint-staged": "^7.0.1",
-    "material-ui": "^1.0.0-beta.39",
+    "lint-staged": "^7.0.2",
     "mini-css-extract-plugin": "^0.4.0",
     "prettier": "^1.11.1",
     "prettier-check": "^2.0.0",
@@ -92,7 +96,7 @@
     "react": "16.3.0",
     "react-dom": "16.3.0",
     "react-emotion": "^9.1.0",
-    "react-hot-loader": "^4.0.0",
+    "react-hot-loader": "^4.0.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.3.0",

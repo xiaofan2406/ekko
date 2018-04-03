@@ -21,7 +21,8 @@ module.exports = {
       {
         targets: { node: 'current' },
         useBuiltIns: 'usage',
-        modules: isDevelopment ? false : 'commonjs',
+        modules:
+          isDevelopment || process.env.MODULE === 'es6' ? false : 'commonjs',
       },
     ],
     ['@babel/preset-react', { development: !isProduction, useBuiltIns: true }],

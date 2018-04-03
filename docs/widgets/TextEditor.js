@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import { Input, Button } from 'nidalee';
 
 type TextEditorProps = {
   value: mixed,
@@ -12,16 +11,15 @@ const TextEditor = ({ value, handleChange }: TextEditorProps) => {
   let input;
   return (
     <div>
-      <TextField
+      <Input
         label="Name"
         defaultValue={value}
-        inputRef={ref => {
+        innerRef={ref => {
           input = ref;
         }}
       />
       <Button
-        variant="raised"
-        color="primary"
+        primary
         onClick={() => {
           if (input) {
             handleChange(input.value);
