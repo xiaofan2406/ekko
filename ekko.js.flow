@@ -29,6 +29,7 @@ export type CellProps = {|
 
 export type CellState = {|
   isEditing: boolean,
+  previousValue: mixed,
 |};
 
 export type Column = React.ComponentType<ColumnProps>;

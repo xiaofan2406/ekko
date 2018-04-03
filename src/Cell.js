@@ -1,10 +1,11 @@
 /* @flow */
 import React from 'react';
-import { Dropdown, Dialog, InlineEdit } from 'nidalee';
+import { Dropdown, Dialog, InlineEdit, Button } from 'nidalee';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
     isEditing: false,
+    previousValue: this.props.value,
   };
 
   componentDidMount() {
@@ -34,19 +35,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
-  handleChange = (newValue: mixed) => {
-    const { updater, handleRowChange } = this.props;
-
-    if (updater) {
-      handleRowChange(updater(newValue));
-    }
-    this.setState({
-      isEditing: false,
-    });
-
-    console.log('finish editing');
-  };
-
   startEditing = () => {
     const { editor } = this.props;
     if (editor) {
@@ -56,18 +44,45 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
+  handleChange = (newValue: mixed) => {
+    const { updater, handleRowChange, value } = this.props;
+
+    if (updater) {
+      handleRowChange(updater(newValue));
+    }
+    this.setState({
+      isEditing: false,
+      previousValue: value,
+    });
+
+    console.log('finish editing');
+  };
+
+  handleUndo = () => {
+    const { updater, handleRowChange } = this.props;
+    console.log('undo with: ', this.state.previousValue);
+    if (updater && handleRowChange) {
+      handleRowChange(updater(this.state.previousValue));
+    }
+  };
+
   renderValue = (canEdit: boolean = true) => {
     const { value, render } = this.props;
 
     const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
     return (
-      <div tabIndex={0} role="textbox" className="ekko-cell" {...editHandler}>
+      <div
+        tabIndex={0}
+        role="textbox"
+        className="ekko-cell-editor"
+        {...editHandler}
+      >
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
   };
 
-  render() {
+  renderEditor = () => {
     const { value, editor, editorDisplay, render } = this.props;
     // console.log('render Cell', value);
 
@@ -124,6 +139,31 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     // inline, but object?
 
     return this.renderValue(false);
+  };
+
+  renderActions = () => {
+    const { updater } = this.props;
+    return updater ? (
+      <Dropdown
+        opener="..."
+        tabIndex={0}
+        role="button"
+        className="ekko-cell-menu"
+        align="right"
+        direction="bottom"
+      >
+        <Button onClick={this.handleUndo}>Undo</Button>
+      </Dropdown>
+    ) : null;
+  };
+
+  render() {
+    return (
+      <div tabIndex={0} role="textbox" className="ekko-cell">
+        {this.renderEditor()}
+        {this.renderActions()}
+      </div>
+    );
   }
 }
 
