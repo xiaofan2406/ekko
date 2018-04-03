@@ -71,9 +71,14 @@ class Cell extends React.PureComponent<CellProps, CellState> {
   };
 
   openMenu = () => {
-    console.log('oepn');
     this.setState({
       isMenuOpen: true,
+    });
+  };
+
+  closeMenu = () => {
+    this.setState({
+      isMenuOpen: false,
     });
   };
 
@@ -82,12 +87,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
     const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
     return (
-      <div
-        tabIndex={0}
-        role="textbox"
-        className="ekko-cell-editor"
-        {...editHandler}
-      >
+      <div className="ekko-cell-editor" {...editHandler}>
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
@@ -103,8 +103,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         <Dropdown
           open={this.state.isEditing}
           opener={this.renderValue()}
-          tabIndex={0}
-          role="textbox"
           className="ekko-cell"
           align="right"
           direction="bottom"
@@ -142,8 +140,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
           render={render}
           onSave={this.handleChange}
           className="ekko-cell"
-          tabIndex={0}
-          role="textbox"
         />
       );
     }
@@ -158,9 +154,10 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     return updater ? (
       <Dropdown
         open={isMenuOpen}
-        opener={<Button onClick={this.openMenu}>...</Button>}
-        tabIndex={0}
-        role="button"
+        opener={<span tabIndex={-1}>...</span>}
+        trigger="onClick"
+        onOpen={this.openMenu}
+        onClose={this.closeMenu}
         className="ekko-cell-menu"
         align="right"
         direction="bottom"
