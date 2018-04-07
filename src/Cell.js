@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Dropdown, Dialog, InlineEdit, Button } from 'nidalee';
+import { Popover, Dialog, InlineEdit, Button } from 'nidalee';
 import { cssCell } from './styles';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
@@ -98,10 +98,10 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     const { value, editor, editorDisplay, render } = this.props;
     // console.log('render Cell', value);
 
-    if (editorDisplay === 'dropdown' && editor && editor !== 'inline') {
-      // TODO Dropdown isnt really working correclty
+    if (editorDisplay === 'popover' && editor && editor !== 'inline') {
+      // TODO Popover isnt really working correclty
       return (
-        <Dropdown
+        <Popover
           expand={this.state.isEditing}
           expander={this.renderValue()}
           align="right"
@@ -112,7 +112,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
             value,
             handleChange: this.handleChange,
           })}
-        </Dropdown>
+        </Popover>
       );
     }
 
@@ -154,7 +154,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     const { updater } = this.props;
     const { isMenuOpen } = this.state;
     return updater ? (
-      <Dropdown
+      <Popover
         expand={isMenuOpen}
         expander={<span tabIndex={-1}>...</span>}
         trigger="onClick"
@@ -165,7 +165,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         direction="bottom"
       >
         <Button onClick={this.handleUndo}>Undo</Button>
-      </Dropdown>
+      </Popover>
     ) : null;
   };
 

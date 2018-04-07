@@ -116,7 +116,7 @@ class ReduxExample extends React.Component<{}> {
             getter={rowData => rowData.description}
             updater={this.makeUpdater('description')}
             editor={TextEditor}
-            editorDisplay="dropdown"
+            editorDisplay="popover"
           />
         </ConnectedGrid>
       </Provider>

@@ -23,7 +23,7 @@ Excel like Grid in React
 
 * [x] ignore Context usage for now
 * [x] Cell api, update value, perf check
-* [x] Inline, Dropdown, Dialog buitin
+* [x] Inline, Popover, Dialog buitin
 * [ ] Improve sorting!
 * [ ] Undo
 * [ ] Cell level action
