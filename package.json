@@ -1,8 +1,11 @@
 {
   "name": "ekko",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Xiaofan Wu (https://github.com/xiaofan2406)",
-  "keywords": ["ekko", "react"],
+  "keywords": [
+    "ekko",
+    "react"
+  ],
   "repository": "xiaofan2406/ekko",
   "bugs": {
     "url": "https://github.com/xiaofan2406/ekko/issues"
@@ -16,20 +19,16 @@
   "scripts": {
     "precommit": "lint-staged",
     "lint:eslint": "eslint src config docs/src",
-    "lint:prettier":
-      "prettier-check '{src,config,docs/src}/**/*.{js,mjs,json,md}'",
+    "lint:prettier": "prettier-check '{src,config,docs/src}/**/*.{js,mjs,json,md}'",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "format": "prettier '{src,config,docs/src}/**/*.{js,mjs,json,md}' --write",
     "test": "NODE_ENV=test jest --watch",
     "coverage": "NODE_ENV=test jest --coverage",
     "prebuild": "yarn lint && rm -rf dist",
-    "build:commonjs":
-      "NODE_ENV=production babel src --out-dir dist/commonjs --ignore 'src/**/__tests__/'",
-    "build:es6":
-      "NODE_ENV=production MODULE=es6 babel src --out-dir dist/es6 --ignore 'src/**/__tests__/'",
+    "build:commonjs": "NODE_ENV=production babel src --out-dir dist/commonjs --ignore 'src/**/__tests__/'",
+    "build:es6": "NODE_ENV=production MODULE=es6 babel src --out-dir dist/es6 --ignore 'src/**/__tests__/'",
     "build": "npm run build:commonjs && npm run build:es6",
-    "dev":
-      "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
+    "dev": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
     "predocs": "rm -rf ./docs/dist",
     "docs": "NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "start": "node ./config/serveDocs.js",
@@ -37,7 +36,10 @@
     "postpublish": "git push --follow-tags"
   },
   "lint-staged": {
-    "*.{js,mjs,css,md}": ["prettier --write", "git add"]
+    "*.{js,mjs,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "prettier": {
     "singleQuote": true,
