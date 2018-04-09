@@ -46,6 +46,15 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
+  finishEditing = () => {
+    const { editor } = this.props;
+    if (editor) {
+      this.setState({
+        isEditing: false,
+      });
+    }
+  };
+
   handleChange = (newValue: mixed) => {
     const { updater, handleRowChange, value } = this.props;
 
@@ -83,12 +92,11 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     });
   };
 
-  renderValue = (canEdit: boolean = true) => {
+  renderValue = () => {
     const { value, render } = this.props;
 
-    const editHandler = canEdit ? { onDoubleClick: this.startEditing } : {};
     return (
-      <div className="value" {...editHandler}>
+      <div className="value">
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
@@ -103,6 +111,9 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       return (
         <Popover
           expand={this.state.isEditing}
+          onExpand={this.startEditing}
+          trigger="onDoubleClick"
+          onCollapse={this.finishEditing}
           expander={this.renderValue()}
           align="right"
           direction="bottom"
@@ -120,6 +131,9 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       return (
         <Dialog
           open={this.state.isEditing}
+          onOpen={this.startEditing}
+          onClose={this.finishEditing}
+          trigger="onDoubleClick"
           opener={this.renderValue()}
           showOverlay
           className="editor"
@@ -147,7 +161,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
     // inline, but object?
 
-    return this.renderValue(false);
+    return this.renderValue();
   };
 
   renderActions = () => {

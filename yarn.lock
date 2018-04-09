@@ -6311,9 +6311,9 @@ nice-try@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.4.tgz#d93962f6c52f2c1558c0fbda6d512819f1efe1c4"
 
-nidalee@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/nidalee/-/nidalee-0.0.10.tgz#384f547591dfcc3606ce96ab3f934d56b88e2de6"
+nidalee@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/nidalee/-/nidalee-0.0.11.tgz#4f0a08669018fbf4430f6c0de62e4ec27a0edc88"
   dependencies:
     color "^3.0.0"
     emotion "^9.1.1"
