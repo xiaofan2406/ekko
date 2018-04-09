@@ -6,8 +6,6 @@
 .*/__snapshots__/.*
 
 [include]
-./node_modules/nidalee/package.json
-./node_modules/nidalee/nidalee.js.flow
 
 [libs]
 ./ekko.js.flow

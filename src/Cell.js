@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Popover, Dialog, InlineEdit, Button } from 'nidalee';
+import { Popover, Dialog, InlineEdit, Menu } from 'nidalee';
 import { cssCell } from './styles';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
@@ -164,7 +164,9 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         align="right"
         direction="bottom"
       >
-        <Button onClick={this.handleUndo}>Undo</Button>
+        <Menu>
+          <Menu.Item onClick={this.handleUndo}>Undo</Menu.Item>
+        </Menu>
       </Popover>
     ) : null;
   };
