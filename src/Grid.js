@@ -2,7 +2,6 @@
 import * as React from 'react';
 import orderBy from 'lodash.orderby';
 import Row from './Row';
-import Static from './Static';
 import HeaderCell from './HeaderCell';
 import { cssGrid } from './styles';
 
@@ -54,56 +53,19 @@ class Grid extends React.Component<GridProps, GridState> {
   };
 
   renderRows = () => {
-    const { enhancer, decorator } = this.props;
-    // TODO warning for conflics?
-    if (enhancer) {
-      return this.renderEnhancedRows();
-    }
-    if (decorator) {
-      return this.renderDecoratedRows();
-    }
-    // TODO take props.data and simply display it?
-    return null;
-  };
-
-  // for render-prop usage, e.g. new context
-  // not really working due to any new reference will re-render
-  renderEnhancedRows = () => {
-    const { enhancer, onRowChange, children } = this.props;
-    const { ids } = this.state;
-    return ids.map(id => (
-      <Static key={id}>
-        {enhancer(({ data }) => (
-          <Row
-            data={data[id]}
-            id={id}
-            onRowChange={onRowChange}
-            storeData={this.storeData}
-          >
-            {children}
-          </Row>
-        ))}
-      </Static>
-    ));
-  };
-
-  // for higher-order-component usage, e.g. react-redux
-  renderDecoratedRows = () => {
     const { decorator, onRowChange, children } = this.props;
     const { ids } = this.state;
-    return ids.map(id => {
-      const DecoratedRow = decorator()(Row);
-      return (
-        <DecoratedRow
-          key={id}
-          id={id}
-          onRowChange={onRowChange}
-          storeData={this.storeData}
-        >
-          {children}
-        </DecoratedRow>
-      );
-    });
+    const DecoratedRow = decorator(Row);
+    return ids.map(id => (
+      <DecoratedRow
+        key={id}
+        id={id}
+        onRowChange={onRowChange}
+        storeData={this.storeData}
+      >
+        {children}
+      </DecoratedRow>
+    ));
   };
 
   render() {

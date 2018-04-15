@@ -80,6 +80,12 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     });
   };
 
+  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLDivElement>) => {
+    if (event.which === 13) {
+      this.startEditing();
+    }
+  };
+
   openMenu = () => {
     this.setState({
       isMenuOpen: true,
@@ -96,7 +102,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     const { value, render } = this.props;
 
     return (
-      <div className="value">
+      <div className="value" tabIndex={-1}>
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
@@ -186,8 +192,14 @@ class Cell extends React.PureComponent<CellProps, CellState> {
   };
 
   render() {
+    console.log('render Cell');
     return (
-      <div tabIndex={0} role="textbox" className={cssCell}>
+      <div
+        tabIndex={0}
+        role="textbox"
+        className={cssCell}
+        onKeyDown={this.handleKeyDown}
+      >
         {this.renderEditor()}
         {this.renderActions()}
       </div>

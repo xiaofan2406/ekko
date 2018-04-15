@@ -58,8 +58,7 @@ export type GridProps = {
   ids: string[],
   onRowChange: RowChangeHandler,
   children: ColumnChildren,
-  enhancer: (render: RowRender) => React.Element<any>,
-  decorator: () => (Wrapped: Row) => React.Element<any>,
+  decorator: (Wrapped: Row) => React.Element<any>,
 };
 export type GridState = {|
   ids: string[],

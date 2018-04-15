@@ -39,7 +39,7 @@ class ReduxExample extends React.Component<{}> {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedGrid decorator={() => connect(mapStateForCell)}>
+        <ConnectedGrid decorator={connect(mapStateForCell)}>
           <Column label="ID" getter={rowData => rowData.key} />
           <Column
             label="Icon"
@@ -48,7 +48,8 @@ class ReduxExample extends React.Component<{}> {
             render={value => (
               <img src={value} alt={value} style={{ width: '50px' }} />
             )}
-            editor="inline"
+            editor={TextEditor}
+            editorDisplay="dialog"
           />
           <Column
             label="Name"
