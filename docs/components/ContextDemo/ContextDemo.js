@@ -1,5 +1,5 @@
 /* @flow */
-import React from 'react';
+import * as React from 'react';
 import { TextEditor } from 'widgets';
 import { Grid, Column } from 'ekko';
 import { GridProvider, GridConsumer } from './Context';
@@ -7,7 +7,9 @@ import { GridProvider, GridConsumer } from './Context';
 const round = value => (Math.round(+value * 1000) / 1000).toFixed(3);
 
 class ContextDemo extends React.Component<{}> {
-  rowDecorator = Component => props => (
+  rowDecorator = (Component: React.ComponentType<any>) => (props: {
+    id: string,
+  }) => (
     <GridConsumer>
       {({ byId }) => <Component {...props} data={byId[props.id]} />}
     </GridConsumer>

@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
 import champions from '../lolChampions2.json';
