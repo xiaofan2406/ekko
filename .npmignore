@@ -1,8 +1,14 @@
 config/
+coverage/
+dist/docs/
 docs/
 flow-typed/
 src/
 .babelrc.js
 .eslintrc.js
 .flowconfig
+.gitignore
+.npmignore
+.travis.yml
+yarn-error.log
 yarn.lock

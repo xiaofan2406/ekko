@@ -58,18 +58,18 @@ module.exports = {
       template: `${paths.appSrc}/assets/index.html`,
       favicon: `${paths.appSrc}/assets/favicon.ico`,
     }),
-    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"',
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
   node: common.node,
-  performance: {
-    hints: false,
-  },
+  performance: false,
   devServer: {
     compress: true,
+    contentBase: `${paths.appSrc}/assets`,
+    watchContentBase: true,
     historyApiFallback: {
       disableDotRule: true,
     },

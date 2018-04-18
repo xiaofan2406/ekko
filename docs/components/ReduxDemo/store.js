@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import champions from '../lolChampions2.json';
+import champions from '../lolChampions2';
 
 const initialState = {
   byId: champions.reduce((byId, champion) => {

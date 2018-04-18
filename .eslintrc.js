@@ -11,7 +11,7 @@ module.exports = {
         config: './config/webpack.common.js',
       },
       node: {
-        extensions: ['.js', '.mjs'],
+        extensions: ['.js', '.mjs', '.json'],
       },
     },
   },
@@ -32,6 +32,11 @@ module.exports = {
     'no-param-reassign': [2, { props: false }],
     'no-underscore-dangle': [2, { allowAfterThis: true }],
     'no-nested-ternary': 0,
+    'import/extensions': [
+      2,
+      'always',
+      { js: 'never', mjs: 'never', json: 'never' },
+    ],
     'import/no-extraneous-dependencies': 0, // allow import devDependencies
     'react/jsx-filename-extension': 0, // enfore all .js extension
     'react/prefer-stateless-function': 0,

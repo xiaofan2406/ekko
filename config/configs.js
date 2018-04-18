@@ -3,7 +3,7 @@ const ip = require('ip');
 
 const appRoot = path.join(__dirname, '..');
 const appSrc = path.join(appRoot, 'docs');
-const appDist = path.join(appRoot, 'docs', 'dist');
+const appDist = path.join(appRoot, 'dist', 'docs');
 const libSrc = path.join(appRoot, 'src');
 
 const devServerPort = process.env.PORT || 8000;

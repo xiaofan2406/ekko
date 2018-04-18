@@ -17,12 +17,13 @@
   "scripts": {
     "precommit": "lint-staged",
     "lint:eslint": "eslint src config docs",
-    "lint:prettier": "prettier-check '{src,config,docs}/**/*.{js,mjs,json,md}'",
+    "lint:prettier":
+      "prettier-check '{src,config,docs}/**/*.{js,mjs,json,css,md}'",
     "lint": "yarn lint:eslint && yarn lint:prettier",
-    "format": "prettier '{src,config,docs}/**/*.{js,mjs,json,md}' --write",
+    "format": "prettier '{src,config,docs}/**/*.{js,mjs,json,css,md}' --write",
     "test": "NODE_ENV=test jest --watch",
     "coverage": "NODE_ENV=test jest --coverage",
-    "prebuild": "yarn lint && rm -rf dist",
+    "prebuild": "yarn lint && rm -rf dist/es6 dist/commonjs",
     "build:commonjs":
       "NODE_ENV=production babel src --out-dir dist/commonjs --ignore 'src/**/__tests__/'",
     "build:es6":
@@ -30,20 +31,30 @@
     "build": "npm run build:commonjs && npm run build:es6",
     "dev":
       "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
-    "predocs": "rm -rf ./docs/dist",
+    "predocs": "rm -rf ./dist/docs",
     "docs": "NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "start": "node ./config/serveDocs.js",
-    "docs:publish": "yarn docs && surge -p ./docs/dist -d ekko.surge.sh",
+    "docs:publish": "yarn docs && surge -p ./dist/docs -d ekko.surge.sh",
     "prepublishOnly": "yarn build",
     "postpublish": "git push --follow-tags"
   },
   "lint-staged": {
-    "*.{js,mjs,css,md}": ["prettier --write", "git add"]
+    "*.{js,mjs,json,css,md}": ["prettier --write", "git add"]
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "jest": {
+    "preset": "<rootDir>/config/jest/jest.config.json"
+  },
+  "browserslist": [
+    "Chrome >= 60",
+    "Safari >= 10.1",
+    "iOS >= 10.3",
+    "Firefox >= 54",
+    "Edge >= 15"
+  ],
   "dependencies": {
     "lodash.orderby": "^4.6.0",
     "nidalee": "^0.0.12"
