@@ -12,6 +12,12 @@ class Grid extends React.Component<GridProps, GridState> {
     sortOrder: 'none',
   };
 
+  componentWillReceiveProps(nextProps: GridProps) {
+    if (nextProps.decorator !== this.props.decorator) {
+      this.DecoratedRow = nextProps.decorator(Row);
+    }
+  }
+
   getNextSortOrder = (index: number): GridSortOrder =>
     ({
       asc: 'desc',
@@ -24,6 +30,8 @@ class Grid extends React.Component<GridProps, GridState> {
     // console.log('setting store', id);
     this.store[id][index] = value;
   };
+
+  DecoratedRow = this.props.decorator(Row);
 
   store = this.props.ids.reduce((byId, id) => {
     byId[id] = [];
@@ -53,9 +61,10 @@ class Grid extends React.Component<GridProps, GridState> {
   };
 
   renderRows = () => {
-    const { decorator, onRowChange, children } = this.props;
+    const { DecoratedRow } = this;
+    const { onRowChange, children } = this.props;
     const { ids } = this.state;
-    const DecoratedRow = decorator(Row);
+
     return ids.map(id => (
       <DecoratedRow
         key={id}

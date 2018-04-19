@@ -3,6 +3,9 @@ import React from 'react';
 import Cell from './Cell';
 
 class Row extends React.Component<RowProps> {
+  componentDidMount() {
+    console.log('mount');
+  }
   storeValue = (index: number, value: mixed) => {
     const { id, storeData } = this.props;
     storeData(id, index, value);
