@@ -57,7 +57,7 @@
   ],
   "dependencies": {
     "lodash.orderby": "^4.6.0",
-    "nidalee": "^0.0.12"
+    "nidalee": "^0.0.15"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -107,16 +107,16 @@
     "react": "16.3.2",
     "react-dom": "16.3.2",
     "react-emotion": "^9.1.1",
-    "react-hot-loader": "^4.0.1",
+    "react-hot-loader": "^4.1.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.3.2",
-    "redux": "^3.7.2",
+    "redux": "^4.0.0",
     "serve": "^6.5.5",
-    "style-loader": "^0.20.3",
-    "uglifyjs-webpack-plugin": "^1.2.4",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
-    "webpack": "^4.5.0",
+    "webpack": "^4.6.0",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.3"
   }

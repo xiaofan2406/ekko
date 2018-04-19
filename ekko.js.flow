@@ -31,7 +31,7 @@ export type CellProps = {|
 
 export type CellState = {|
   isEditing: boolean,
-  isMenuOpen: boolean,
+  menuPostion: { x: number, y: number } | null,
   previousValue: mixed,
 |};
 

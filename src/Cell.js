@@ -1,12 +1,12 @@
 /* @flow */
 import React from 'react';
 import { Popover, Dialog, InlineEdit, Menu } from 'nidalee';
-import { cssCell } from './styles';
+import { cssCell, cssCellValue, cssCellMenu } from './styles';
 
 class Cell extends React.PureComponent<CellProps, CellState> {
   state = {
     isEditing: false,
-    isMenuOpen: false,
+    menuPostion: null,
     previousValue: this.props.value,
   };
 
@@ -26,6 +26,29 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       ? `${value}`
       : JSON.stringify(value);
   }
+
+  setMenuPosition = (mousePos: { x: number, y: number }) => {
+    // TODO better algorithm to determin the position
+    // assume for now menu is 120px w, 80px h;
+    const menuWith = 120;
+    const menuHeight = 80;
+    const menuPostion = {};
+    if (mousePos.x + menuWith > window.innerWidth + window.pageXOffset) {
+      menuPostion.x = mousePos.x - menuWith;
+    } else {
+      menuPostion.x = mousePos.x;
+    }
+
+    if (mousePos.y + menuHeight > window.innerHeight + window.pageYOffset) {
+      menuPostion.y = mousePos.y - menuHeight;
+    } else {
+      menuPostion.y = mousePos.y;
+    }
+    this.setState({
+      menuPostion,
+    });
+    console.log(menuPostion);
+  };
 
   validateProps = () => {
     const { value, render } = this.props;
@@ -75,9 +98,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     if (updater && handleRowChange) {
       handleRowChange(updater(this.state.previousValue));
     }
-    this.setState({
-      isMenuOpen: false,
-    });
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<HTMLDivElement>) => {
@@ -86,23 +106,38 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     }
   };
 
-  openMenu = () => {
-    this.setState({
-      isMenuOpen: true,
-    });
+  handleClick = () => {
+    // clicking anywhere closes the menu
+    // TODO this is hacky, need a better soluton
+    this.closeMenu();
+  };
+  handleBlur = () => {
+    this.closeMenu();
+  };
+
+  toggleEditing = (isEditing: boolean) => {
+    this.setState({ isEditing });
+  };
+
+  handleContextMenu = (event: SyntheticMouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    this.setMenuPosition({ x: event.pageX, y: event.pageY });
   };
 
   closeMenu = () => {
-    this.setState({
-      isMenuOpen: false,
-    });
+    // shouldn't show menu if it is editing for now
+    if (!this.state.isEditing) {
+      this.setState({
+        menuPostion: null,
+      });
+    }
   };
 
   renderValue = () => {
     const { value, render } = this.props;
 
     return (
-      <div className="value" tabIndex={-1}>
+      <div className={cssCellValue} tabIndex={-1}>
         {render ? render(value) : this.stringifiedValue}
       </div>
     );
@@ -113,7 +148,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     // console.log('render Cell', value);
 
     if (editorDisplay === 'popover' && editor && editor !== 'inline') {
-      // TODO Popover isnt really working correclty
       return (
         <Popover
           expand={this.state.isEditing}
@@ -158,8 +192,11 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     ) {
       return (
         <InlineEdit
-          value={this.stringifiedValue}
+          tabIndex={-1}
+          defaultValue={this.stringifiedValue}
+          editing={this.state.isEditing}
           render={render}
+          toggleEditing={this.toggleEditing}
           onSave={this.handleChange}
           className="editor"
         />
@@ -170,24 +207,20 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     return this.renderValue();
   };
 
-  renderActions = () => {
+  renderContextMenu = () => {
     const { updater } = this.props;
-    const { isMenuOpen } = this.state;
-    return updater ? (
-      <Popover
-        expand={isMenuOpen}
-        expander={<span tabIndex={-1}>...</span>}
-        trigger="onClick"
-        onExpand={this.openMenu}
-        onCollapse={this.closeMenu}
-        className="menu"
-        align="right"
-        direction="bottom"
+    const { menuPostion } = this.state;
+    return updater && menuPostion ? (
+      <Menu
+        style={{
+          left: menuPostion.x,
+          top: menuPostion.y,
+        }}
+        className={cssCellMenu}
+        onBlur={this.closeMenu}
       >
-        <Menu>
-          <Menu.Item onClick={this.handleUndo}>Undo</Menu.Item>
-        </Menu>
-      </Popover>
+        <Menu.Item onClick={this.handleUndo}>Undo</Menu.Item>
+      </Menu>
     ) : null;
   };
 
@@ -199,9 +232,12 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         role="textbox"
         className={cssCell}
         onKeyDown={this.handleKeyDown}
+        onContextMenu={this.handleContextMenu}
+        onBlur={this.handleBlur}
+        onClick={this.handleClick}
       >
         {this.renderEditor()}
-        {this.renderActions()}
+        {this.renderContextMenu()}
       </div>
     );
   }

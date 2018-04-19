@@ -10,13 +10,28 @@ export const cssCell = css`
   justify-content: center;
   align-items: center;
 
-  &:focus {
+  &:focus,
+  &:focus-within {
     border-color: grey;
   }
 
   &.sortable {
     cursor: pointer;
   }
+`;
+
+export const cssCellValue = css`
+  outline: none;
+
+  /* expander reset*/
+  border: 0 !important;
+  background-color: transparent !important;
+`;
+
+export const cssCellMenu = css`
+  position: fixed;
+  z-index: 10;
+  background-color: #434343;
 `;
 
 export const cssGrid = css`
