@@ -1,32 +1,38 @@
 /* @flow */
+import * as React from 'react';
+
 export type EditorRender = (props: {
   value: mixed,
-  handleChange: (newValue: mixed) => mixed,
+  onUpdate: (newValue: mixed) => mixed,
+  onCancel: () => mixed,
 }) => React.Element<any>;
 
-export type CellChangeHandler = (rowData: {}) => {};
+export type CellUpdater = (value: mixed, rowDate: mixed) => mixed;
 
 export type EditorDisplay = 'popover' | 'dialog';
 
-export type ColumnProps = {
+export type Column = {
   +name: string,
   +label?: string,
-  +getter: (rowData: {}) => mixed,
+  +getter: (rowData: mixed) => mixed,
+
   +render?: (value: mixed) => React$Node,
-  +updater?: (value: mixed) => CellChangeHandler,
-  +sortable?: boolean | ((value: mixed) => boolean),
+  +updater?: CellUpdater,
   +editor?: EditorRender | 'inline',
   +editorDisplay?: EditorDisplay,
+
+  +sortable?: boolean | ((value: mixed) => boolean),
 };
 
 export type CellProps = {
   +value: mixed,
-  +render: $PropertyType<ColumnProps, 'render'>,
-  +updater: $PropertyType<ColumnProps, 'updater'>,
-  +editor: $PropertyType<ColumnProps, 'editor'>,
-  +editorDisplay: $PropertyType<ColumnProps, 'editorDisplay'>,
-  +handleRowChange: (handler: CellChangeHandler) => mixed,
-  +index: number,
+
+  +render: $PropertyType<Column, 'render'>,
+  +updater: $PropertyType<Column, 'updater'>,
+  +editor: $PropertyType<Column, 'editor'>,
+  +editorDisplay: $PropertyType<Column, 'editorDisplay'>,
+
+  +onCellUpdate: (value: mixed, updater: CellUpdater) => mixed,
 };
 
 export type CellState = {|
@@ -35,45 +41,30 @@ export type CellState = {|
   previousValue: mixed,
 |};
 
-export type Column = React.ComponentType<ColumnProps>;
-
-export type ColumnChildren = React.ChildrenArray<React.Element<Column>>;
-
-export type RowChangeHandler = (id: string, newData: {}) => mixed;
+export type RowChangeHandler = (id: string, newData: mixed) => mixed;
 
 export type RowProps = {|
   +id: string,
-  +getColumns: () => ColumnChildren,
-  +onRowChange: RowChangeHandler,
-  +data: {},
+  +onRowChange?: RowChangeHandler,
+  +data: mixed,
+  +columns: Column[],
 |};
-
-export type RowRender = (props: { data: {} }) => React.Element<any>;
-
-export type Row = React.ComponentType<RowProps>;
 
 export type SortOrder = 'asc' | 'desc' | 'none';
 
-export type DataProps = {
-  data: { [string]: {} },
-  onChange: RowChangeHandler,
-};
-export type DataState = {|
-  ids: string[],
-  sortIndex: number,
-  sortOrder: SortOrder,
-|};
+export type GridData = { [string]: mixed };
 
 export type GridProps = {
-  children: ColumnChildren,
+  +data: GridData,
+  +onRowChange?: RowChangeHandler,
+  +columns: Column[],
 };
+
 export type GridState = {|
   sortIndex: number,
   sortOrder: SortOrder,
 |};
 
 declare module 'ekko' {
-  declare export class Column extends React$Component<ColumnProps> {}
-  declare export var Row: React$ComponentType<RowProps>;
-  declare export var Grid: React$ComponentType<GridProps>;
+  declare export class Grid extends React.Component<GridProps> {}
 }

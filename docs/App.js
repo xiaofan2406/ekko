@@ -2,14 +2,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import {
-  Layout,
-  Home,
-  Navigation,
-  ContextDemo,
-  ReduxDemo,
-  Pool,
-} from 'components';
+import { Layout, Home, Navigation, ReduxDemo, Pool } from 'components';
 import { asyncLoad } from 'factories';
 import 'styles/reset.css';
 import 'styles/animation.css';
@@ -20,7 +13,6 @@ const App = () => (
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/redux-demo" component={ReduxDemo} />
-        <Route path="/context-demo" component={ContextDemo} />
         <Route
           path="/about"
           component={asyncLoad({

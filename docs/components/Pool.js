@@ -12,7 +12,7 @@ const cssPool = css`
 `;
 
 type PoolProps = {
-  ids: string[],
+  champions: { [string]: {} },
   addChampion: (id: string, champion: {}) => mixed,
 };
 
@@ -36,12 +36,12 @@ class Pool extends React.Component<PoolProps, {}> {
   };
 
   render() {
-    const { ids } = this.props;
+    const { champions } = this.props;
     return (
       <div className={cssPool}>
         <select onChange={this.handleAdd}>
           {allChampions
-            .filter(champion => !ids.includes(champion.id))
+            .filter(champion => !Object.keys(champions).includes(champion.id))
             .map(champion => (
               <option id={champion.id} value={champion.id} key={champion.id}>
                 {champion.name}
@@ -54,7 +54,7 @@ class Pool extends React.Component<PoolProps, {}> {
 }
 
 const mapState = state => ({
-  ids: selectors.getIds(state),
+  champions: selectors.getChampions(state),
 });
 
 export default connect(mapState, {

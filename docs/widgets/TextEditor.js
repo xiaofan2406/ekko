@@ -4,10 +4,11 @@ import { Input, Button } from 'nidalee';
 
 type TextEditorProps = {
   value: mixed,
-  handleChange: $PropertyType<EditorRender, 'handleChange'>,
+  onUpdate: $PropertyType<EditorRender, 'onUpdate'>,
+  onCancel: $PropertyType<EditorRender, 'onCancel'>,
 };
 
-const TextEditor = ({ value, handleChange }: TextEditorProps) => {
+const TextEditor = ({ value, onUpdate, onCancel }: TextEditorProps) => {
   let input;
   return (
     <div>
@@ -18,11 +19,12 @@ const TextEditor = ({ value, handleChange }: TextEditorProps) => {
           input = ref;
         }}
       />
+      <Button onClick={onCancel}>Cancel</Button>
       <Button
         primary
         onClick={() => {
           if (input) {
-            handleChange(input.value);
+            onUpdate(input.value);
           }
         }}
       >

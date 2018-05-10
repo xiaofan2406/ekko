@@ -11,26 +11,26 @@ class Row extends React.PureComponent<RowProps> {
     });
   }
 
-  handleRowChange = (handler: CellChangeHandler) => {
+  handleRowChange = (value: mixed, updater: CellUpdater) => {
     const { id, onRowChange, data } = this.props;
-    onRowChange(id, handler(data));
+    if (onRowChange) {
+      onRowChange(id, updater(value, data));
+    }
   };
 
   render() {
     const { columns, data } = this.props;
     console.log('[Row]: render');
 
-    // TODO maybe cell props validation happens here
-    return columns.map((column, index) => (
+    return columns.map(column => (
       <Cell
-        key={column.props.name}
-        value={column.props.getter(data)}
-        render={column.props.render}
-        updater={column.props.updater}
-        editor={column.props.editor}
-        editorDisplay={column.props.editorDisplay}
-        handleRowChange={this.handleRowChange}
-        index={index}
+        key={column.name}
+        value={column.getter(data)}
+        render={column.render}
+        updater={column.updater}
+        editor={column.editor}
+        editorDisplay={column.editorDisplay}
+        onCellUpdate={this.handleRowChange}
       />
     ));
   }

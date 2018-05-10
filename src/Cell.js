@@ -69,26 +69,22 @@ class Cell extends React.PureComponent<CellProps, CellState> {
   startEditing = () => {
     const { editor } = this.props;
     if (editor) {
-      this.setState({
-        isEditing: true,
-      });
+      this.setState({ isEditing: true });
     }
   };
 
   finishEditing = () => {
     const { editor } = this.props;
     if (editor) {
-      this.setState({
-        isEditing: false,
-      });
+      this.setState({ isEditing: false });
     }
   };
 
-  handleChange = (newValue: mixed) => {
-    const { updater, handleRowChange, value } = this.props;
+  handleUpdate = (newValue: mixed) => {
+    const { updater, onCellUpdate, value } = this.props;
 
     if (updater) {
-      handleRowChange(updater(newValue));
+      onCellUpdate(newValue, updater);
     }
     this.setState({
       isEditing: false,
@@ -96,12 +92,14 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     });
   };
 
-  handleUndo = () => {
-    const { updater, handleRowChange } = this.props;
-    console.log('undo with: ', this.state.previousValue);
-    if (updater && handleRowChange) {
-      handleRowChange(updater(this.state.previousValue));
+  handleUndo = (event: SyntheticMouseEvent<any>) => {
+    event.stopPropagation();
+    const { updater, onCellUpdate } = this.props;
+
+    if (updater) {
+      onCellUpdate(this.state.previousValue, updater);
     }
+    this.closeMenu();
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<HTMLDivElement>) => {
@@ -116,7 +114,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
     this.closeMenu();
   };
   handleBlur = () => {
-    this.closeMenu();
+    // this.closeMenu();
   };
 
   toggleEditing = (isEditing: boolean) => {
@@ -165,7 +163,8 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         >
           {editor({
             value,
-            handleChange: this.handleChange,
+            onUpdate: this.handleUpdate,
+            onCancel: this.finishEditing,
           })}
         </Popover>
       );
@@ -184,7 +183,8 @@ class Cell extends React.PureComponent<CellProps, CellState> {
         >
           {editor({
             value,
-            handleChange: this.handleChange,
+            onUpdate: this.handleUpdate,
+            onCancel: this.finishEditing,
           })}
         </Dialog>
       );
@@ -201,7 +201,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
           editing={this.state.isEditing}
           render={render}
           toggleEditing={this.toggleEditing}
-          onSave={this.handleChange}
+          onSave={this.handleUpdate}
           className="editor"
         />
       );
@@ -221,7 +221,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
           top: menuPostion.y,
         }}
         className={cssCellMenu}
-        onBlur={this.closeMenu}
       >
         <Menu.Item onClick={this.handleUndo}>Undo</Menu.Item>
       </Menu>

@@ -6,6 +6,10 @@ import HeaderCell from './HeaderCell';
 import { cssGrid } from './styles';
 
 class Grid extends React.Component<GridProps, GridState> {
+  static defaultProps = {
+    onRowChange: () => {},
+  };
+
   state = {
     sortIndex: -1,
     sortOrder: 'none',
@@ -31,8 +35,6 @@ class Grid extends React.Component<GridProps, GridState> {
       desc: 'none',
       none: 'asc',
     }[index === this.state.sortIndex ? this.state.sortOrder : 'none']);
-
-  getColumns = () => this.props.children;
 
   handleSort = () => {
     // const order = this.getNextSortOrder(index);
@@ -82,11 +84,11 @@ class Grid extends React.Component<GridProps, GridState> {
       >
         {columns.map((column, index) => (
           <HeaderCell
-            key={column.props.name}
-            label={column.props.label}
+            key={column.name}
+            label={column.label}
             index={index}
             onSort={this.handleSort}
-            sortable={!!column.props.sortable}
+            sortable={!!column.sortable}
             sortOrder={sortIndex === index ? sortOrder : 'none'}
           />
         ))}
