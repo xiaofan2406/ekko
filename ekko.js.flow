@@ -1,33 +1,33 @@
 /* @flow */
 export type EditorRender = (props: {
   value: mixed,
-  handleChange: (newValue: mixed) => void,
+  handleChange: (newValue: mixed) => mixed,
 }) => React.Element<any>;
 
-export type CellChangeHandler = (rowData: Object) => Object;
+export type CellChangeHandler = (rowData: {}) => {};
 
 export type EditorDisplay = 'popover' | 'dialog';
 
-export type ColumnProps = {|
-  +getter: (rowData: Object) => mixed,
+export type ColumnProps = {
+  +name: string,
+  +label?: string,
+  +getter: (rowData: {}) => mixed,
   +render?: (value: mixed) => React$Node,
   +updater?: (value: mixed) => CellChangeHandler,
   +sortable?: boolean | ((value: mixed) => boolean),
   +editor?: EditorRender | 'inline',
   +editorDisplay?: EditorDisplay,
-  +label?: string,
-|};
+};
 
-export type CellProps = {|
+export type CellProps = {
   +value: mixed,
   +render: $PropertyType<ColumnProps, 'render'>,
   +updater: $PropertyType<ColumnProps, 'updater'>,
   +editor: $PropertyType<ColumnProps, 'editor'>,
   +editorDisplay: $PropertyType<ColumnProps, 'editorDisplay'>,
-  +handleRowChange: (handler: CellChangeHandler) => void,
+  +handleRowChange: (handler: CellChangeHandler) => mixed,
   +index: number,
-  +storeValue: (index: number, value: mixed) => void,
-|};
+};
 
 export type CellState = {|
   isEditing: boolean,
@@ -39,31 +39,37 @@ export type Column = React.ComponentType<ColumnProps>;
 
 export type ColumnChildren = React.ChildrenArray<React.Element<Column>>;
 
-export type RowChangeHandler = (id: string, newData: Object) => void;
+export type RowChangeHandler = (id: string, newData: {}) => mixed;
 
 export type RowProps = {|
   +id: string,
-  +children: ColumnChildren,
+  +getColumns: () => ColumnChildren,
   +onRowChange: RowChangeHandler,
-  +data: Object,
-  +storeData: (id: string, index: number, value: mixed) => void,
+  +data: {},
 |};
 
-export type RowRender = (props: { data: Object }) => React.Element<any>;
+export type RowRender = (props: { data: {} }) => React.Element<any>;
 
 export type Row = React.ComponentType<RowProps>;
 
-export type GridSortOrder = 'asc' | 'desc' | 'none';
-export type GridProps = {
-  ids: string[],
-  onRowChange: RowChangeHandler,
-  children: ColumnChildren,
-  decorator: (Wrapped: Row) => React.Element<any>,
+export type SortOrder = 'asc' | 'desc' | 'none';
+
+export type DataProps = {
+  data: { [string]: {} },
+  onChange: RowChangeHandler,
 };
-export type GridState = {|
+export type DataState = {|
   ids: string[],
   sortIndex: number,
-  sortOrder: GridSortOrder,
+  sortOrder: SortOrder,
+|};
+
+export type GridProps = {
+  children: ColumnChildren,
+};
+export type GridState = {|
+  sortIndex: number,
+  sortOrder: SortOrder,
 |};
 
 declare module 'ekko' {

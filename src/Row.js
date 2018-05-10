@@ -2,14 +2,14 @@
 import React from 'react';
 import Cell from './Cell';
 
-class Row extends React.Component<RowProps> {
-  componentDidMount() {
-    console.log('mount');
+class Row extends React.PureComponent<RowProps> {
+  componentWillReceiveProps(nextProps: RowProps) {
+    Object.keys(nextProps).forEach(key => {
+      if (nextProps[key] !== this.props[key]) {
+        console.log(`\t[Row]: Prop ${key} changed`);
+      }
+    });
   }
-  storeValue = (index: number, value: mixed) => {
-    const { id, storeData } = this.props;
-    storeData(id, index, value);
-  };
 
   handleRowChange = (handler: CellChangeHandler) => {
     const { id, onRowChange, data } = this.props;
@@ -17,20 +17,20 @@ class Row extends React.Component<RowProps> {
   };
 
   render() {
-    const { id, children, data } = this.props;
-    console.log('render Row', id);
+    const { columns, data } = this.props;
+    console.log('[Row]: render');
 
     // TODO maybe cell props validation happens here
-    return React.Children.map(children, (child, index) => (
+    return columns.map((column, index) => (
       <Cell
-        value={child.props.getter(data)}
-        render={child.props.render}
-        updater={child.props.updater}
-        editor={child.props.editor}
-        editorDisplay={child.props.editorDisplay}
+        key={column.props.name}
+        value={column.props.getter(data)}
+        render={column.props.render}
+        updater={column.props.updater}
+        editor={column.props.editor}
+        editorDisplay={column.props.editorDisplay}
         handleRowChange={this.handleRowChange}
         index={index}
-        storeValue={this.storeValue}
       />
     ));
   }

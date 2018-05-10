@@ -12,8 +12,14 @@ class Cell extends React.PureComponent<CellProps, CellState> {
 
   componentDidMount() {
     this.validateProps();
-    const { index, value, storeValue } = this.props;
-    storeValue(index, value);
+  }
+
+  componentWillReceiveProps(nextProps: CellProps) {
+    Object.keys(nextProps).forEach(key => {
+      if (nextProps[key] !== this.props[key]) {
+        console.log(`\t[Cell] Prop ${key} changed`);
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -88,8 +94,6 @@ class Cell extends React.PureComponent<CellProps, CellState> {
       isEditing: false,
       previousValue: value,
     });
-
-    console.log('finish editing');
   };
 
   handleUndo = () => {
@@ -225,7 +229,7 @@ class Cell extends React.PureComponent<CellProps, CellState> {
   };
 
   render() {
-    console.log('render Cell');
+    console.log('[Cell]: render');
     return (
       <div
         tabIndex={0}

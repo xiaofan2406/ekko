@@ -1,102 +1,92 @@
 /* @flow */
 import * as React from 'react';
-import orderBy from 'lodash.orderby';
+// import orderBy from 'lodash.orderby';
 import Row from './Row';
 import HeaderCell from './HeaderCell';
 import { cssGrid } from './styles';
 
 class Grid extends React.Component<GridProps, GridState> {
   state = {
-    ids: this.props.ids,
     sortIndex: -1,
     sortOrder: 'none',
   };
 
-  componentWillReceiveProps(nextProps: GridProps) {
-    if (nextProps.decorator !== this.props.decorator) {
-      this.DecoratedRow = nextProps.decorator(Row);
-    }
+  shouldComponentUpdate(nextProps: GridProps, nextState: GridState) {
+    Object.keys(nextProps).forEach(key => {
+      if (nextProps[key] !== this.props[key]) {
+        console.log(`\t[Grid] Prop ${key} changed`);
+      }
+    });
+    Object.keys(nextState).forEach(key => {
+      if (nextState[key] !== this.state[key]) {
+        console.log(`\t[Grid] State ${key} changed`);
+      }
+    });
+    return true;
   }
 
-  getNextSortOrder = (index: number): GridSortOrder =>
+  getNextSortOrder = (index: number): SortOrder =>
     ({
       asc: 'desc',
       desc: 'none',
       none: 'asc',
     }[index === this.state.sortIndex ? this.state.sortOrder : 'none']);
 
-  // keep data in Grid for calculations not rendering
-  storeData = (id: string, index: number, value: mixed) => {
-    // console.log('setting store', id);
-    this.store[id][index] = value;
-  };
+  getColumns = () => this.props.children;
 
-  DecoratedRow = this.props.decorator(Row);
-
-  store = this.props.ids.reduce((byId, id) => {
-    byId[id] = [];
-    return byId;
-  }, {});
-
-  handleSort = (index: number) => {
-    const order = this.getNextSortOrder(index);
-
-    const ordered =
-      order === 'none'
-        ? this.props.ids
-        : orderBy(
-            Object.keys(this.store).map(id => ({
-              id,
-              value: this.store[id][index],
-            })),
-            'value',
-            order
-          ).map(config => config.id);
-
-    return this.setState({
-      ids: ordered,
-      sortIndex: index,
-      sortOrder: order,
-    });
+  handleSort = () => {
+    // const order = this.getNextSortOrder(index);
+    // const ordered =
+    //   order === 'none'
+    //     ? this.props.ids
+    //     : orderBy(
+    //         Object.keys(this.store).map(id => ({
+    //           id,
+    //           value: this.store[id][index],
+    //         })),
+    //         'value',
+    //         order
+    //       ).map(config => config.id);
+    // return this.setState({
+    //   ids: ordered,
+    //   sortIndex: index,
+    //   sortOrder: order,
+    // });
   };
 
   renderRows = () => {
-    const { DecoratedRow } = this;
-    const { onRowChange, children } = this.props;
-    const { ids } = this.state;
+    const { onRowChange, columns, data } = this.props;
 
-    return ids.map(id => (
-      <DecoratedRow
+    return Object.keys(data).map(id => (
+      <Row
         key={id}
         id={id}
         onRowChange={onRowChange}
-        storeData={this.storeData}
-      >
-        {children}
-      </DecoratedRow>
+        data={data[id]}
+        columns={columns}
+      />
     ));
   };
 
   render() {
-    const { children } = this.props;
-    const { ids, sortIndex, sortOrder } = this.state;
-    console.log('render Grid');
+    const { columns, data } = this.props;
+    const { sortIndex, sortOrder } = this.state;
+    console.log('[Grid]: render');
     return (
       <div
         className={cssGrid}
         style={{
-          gridTemplateColumns: `repeat(${React.Children.count(
-            children
-          )}, auto)`,
-          gridTemplateRows: `60px repeat(${ids.length}, auto)`,
+          gridTemplateColumns: `repeat(${columns.length}, auto)`,
+          gridTemplateRows: `60px repeat(${Object.keys(data).length}, auto)`,
         }}
       >
-        {React.Children.map(children, (child, index) => (
+        {columns.map((column, index) => (
           <HeaderCell
-            label={child.props.label}
+            key={column.props.name}
+            label={column.props.label}
             index={index}
             onSort={this.handleSort}
-            sortable={!!child.props.sortable}
+            sortable={!!column.props.sortable}
             sortOrder={sortIndex === index ? sortOrder : 'none'}
           />
         ))}
