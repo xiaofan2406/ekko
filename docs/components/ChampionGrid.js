@@ -94,6 +94,8 @@ class ChampionGrid extends React.Component<ChampionGridProps> {
       getter: (rowData: Champion) => rowData.stats.attackdamage,
       updater: this.columnUpdaters.attackdamage,
       editor: 'inline',
+      groupBy: (rowData: Champion) =>
+        rowData.stats.attackdamage > 52 ? 'Strong' : 'Weak',
     },
     {
       name: 'attackdamageperlevel',

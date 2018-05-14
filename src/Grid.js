@@ -1,8 +1,9 @@
 /* @flow */
 import * as React from 'react';
 // import orderBy from 'lodash.orderby';
-import Row from './Row';
 import HeaderCell from './HeaderCell';
+import Group from './Group';
+import { groupBy, GROUP_DEFAULT_KEY } from './helpers';
 import { cssGrid } from './styles';
 
 class Grid extends React.Component<GridProps, GridState> {
@@ -13,6 +14,7 @@ class Grid extends React.Component<GridProps, GridState> {
   state = {
     sortIndex: -1,
     sortOrder: 'none',
+    groupKey: '',
   };
 
   shouldComponentUpdate(nextProps: GridProps, nextState: GridState) {
@@ -28,6 +30,23 @@ class Grid extends React.Component<GridProps, GridState> {
     });
     return true;
   }
+
+  getStyle = () => {
+    const { columns, data } = this.props;
+    return {
+      gridTemplateColumns: `repeat(${columns.length + 1}, auto)`,
+      gridTemplateRows: `60px repeat(${Object.keys(data).length}, auto)`,
+    };
+  };
+
+  getGroups = () => {
+    const { data, columns } = this.props;
+    const { groupKey } = this.state;
+    return groupKey
+      ? // $FlowFixMe
+        groupBy(data, columns.find(column => column.name === groupKey).groupBy)
+      : { [GROUP_DEFAULT_KEY]: data };
+  };
 
   getNextSortOrder = (index: number): SortOrder =>
     ({
@@ -56,44 +75,68 @@ class Grid extends React.Component<GridProps, GridState> {
     // });
   };
 
-  renderRows = () => {
-    const { onRowChange, columns, data } = this.props;
-
-    return Object.keys(data).map(id => (
-      <Row
-        key={id}
-        id={id}
-        onRowChange={onRowChange}
-        data={data[id]}
-        columns={columns}
-      />
-    ));
+  handleGroup = (groupKey: string) => {
+    if (groupKey !== this.state.groupKey) {
+      this.setState({ groupKey });
+    }
   };
 
   render() {
-    const { columns, data } = this.props;
+    const { columns, onRowChange } = this.props;
     const { sortIndex, sortOrder } = this.state;
+    const groups = this.getGroups();
     console.log('[Grid]: render');
+    console.log(groups);
     return (
-      <div
-        className={cssGrid}
-        style={{
-          gridTemplateColumns: `repeat(${columns.length}, auto)`,
-          gridTemplateRows: `60px repeat(${Object.keys(data).length}, auto)`,
-        }}
-      >
-        {columns.map((column, index) => (
-          <HeaderCell
-            key={column.name}
-            label={column.label}
-            index={index}
-            onSort={this.handleSort}
-            sortable={!!column.sortable}
-            sortOrder={sortIndex === index ? sortOrder : 'none'}
-          />
-        ))}
-        {this.renderRows()}
-      </div>
+      <>
+        <div className={cssGrid} style={this.getStyle()}>
+          <div
+            style={{
+              gridColumn: '1 / -1',
+            }}
+          >
+            {columns.map(
+              column =>
+                column.groupBy ? (
+                  <button
+                    key={column.name}
+                    onClick={() => {
+                      this.handleGroup(column.name);
+                    }}
+                  >
+                    {column.label}
+                  </button>
+                ) : null
+            )}
+            <button
+              onClick={() => {
+                this.handleGroup('');
+              }}
+            >
+              Clear
+            </button>
+          </div>
+          {columns.map((column, index) => (
+            <HeaderCell
+              key={column.name}
+              label={column.label}
+              index={index}
+              onSort={this.handleSort}
+              sortable={!!column.sortable}
+              sortOrder={sortIndex === index ? sortOrder : 'none'}
+            />
+          ))}
+          {Object.keys(groups).map(label => (
+            <Group
+              key={label}
+              label={label}
+              data={groups[label]}
+              columns={columns}
+              onRowChange={((onRowChange: any): RowChangeHandler)}
+            />
+          ))}
+        </div>
+      </>
     );
   }
 }

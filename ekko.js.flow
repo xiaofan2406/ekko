@@ -11,6 +11,8 @@ export type CellUpdater = (value: mixed, rowDate: mixed) => mixed;
 
 export type EditorDisplay = 'popover' | 'dialog';
 
+export type Iteratee = <T>(item: T) => string;
+
 export type Column = {
   +name: string,
   +label?: string,
@@ -22,6 +24,7 @@ export type Column = {
   +editorDisplay?: EditorDisplay,
 
   +sortable?: boolean | ((value: mixed) => boolean),
+  +groupBy?: Iteratee,
 };
 
 export type CellProps = {
@@ -63,6 +66,7 @@ export type GridProps = {
 export type GridState = {|
   sortIndex: number,
   sortOrder: SortOrder,
+  groupKey: string,
 |};
 
 declare module 'ekko' {
