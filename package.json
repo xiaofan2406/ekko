@@ -114,7 +114,7 @@
     "redux": "^4.0.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.2.0",
-    "serve": "^6.5.6",
+    "serve": "^10.1.2",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
