@@ -2,124 +2,89 @@
   "name": "ekko",
   "version": "0.0.5",
   "author": "Xiaofan Wu (https://github.com/xiaofan2406)",
-  "keywords": ["ekko", "react"],
+  "description": "Data grids for react",
+  "keywords": [
+    "ekko",
+    "react",
+    "grid"
+  ],
   "repository": "xiaofan2406/ekko",
   "bugs": {
     "url": "https://github.com/xiaofan2406/ekko/issues"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=8"
+    "node": ">=20"
   },
-  "main": "dist/commonjs",
-  "module": "dist/es6",
-  "sideEffects": false,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "precommit": "lint-staged",
-    "lint:eslint": "eslint src config docs",
-    "lint:prettier":
-      "prettier-check '{src,config,docs}/**/*.{js,mjs,json,css,md}'",
-    "lint": "yarn lint:eslint && yarn lint:prettier",
-    "format": "prettier '{src,config,docs}/**/*.{js,mjs,json,css,md}' --write",
-    "test": "NODE_ENV=test jest --watch",
-    "coverage": "NODE_ENV=test jest --coverage",
-    "prebuild": "yarn lint && rm -rf dist/es6 dist/commonjs",
-    "build:commonjs":
-      "NODE_ENV=production babel src --out-dir dist/commonjs --ignore 'src/**/__tests__/'",
-    "build:es6":
-      "NODE_ENV=production MODULE=es6 babel src --out-dir dist/es6 --ignore 'src/**/__tests__/'",
-    "build": "npm run build:commonjs && npm run build:es6",
-    "dev":
-      "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
-    "predocs": "rm -rf ./dist/docs",
-    "docs": "NODE_ENV=production webpack --config ./config/webpack.prod.js",
-    "start": "node ./config/serveDocs.js",
-    "docs:publish": "yarn docs && surge -p ./dist/docs -d ekko.surge.sh",
-    "prepublishOnly": "yarn build",
-    "postpublish": "git push --follow-tags"
+    "prepare": "husky",
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier '**/*.{ts,tsx,mjs,cjs,js,jsx,json,css,md}' --check --ignore-path .gitignore",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "prettier '**/*.{ts,tsx,mjs,cjs,js,jsx,json,css,md}' --write --ignore-path .gitignore",
+    "dev": "vite",
+    "build": "tsc -b && tsup",
+    "preversion": "npm i && npm run build",
+    "postversion": "git push -u origin $(git rev-parse --abbrev-ref HEAD) --follow-tags && npm publish && echo '…released.'",
+    "test": "vitest",
+    "coverage": "vitest --coverage"
   },
   "lint-staged": {
-    "*.{js,mjs,json,css,md}": ["prettier --write", "git add"]
+    "*.{ts,tsx,mjs,cjs,js,jsx,json,css,md}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx,mjs,cjs,js,jsx}": [
+      "eslint"
+    ]
   },
   "prettier": {
     "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "jest": {
-    "preset": "<rootDir>/config/jest/jest.config.json"
-  },
-  "browserslist": [
-    "Chrome >= 60",
-    "Safari >= 10.1",
-    "iOS >= 10.3",
-    "Firefox >= 54",
-    "Edge >= 15"
-  ],
-  "dependencies": {
-    "lodash.orderby": "^4.6.0",
-    "nidalee": "^0.0.16"
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "bracketSpacing": false
   },
   "peerDependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.46",
-    "@babel/core": "^7.0.0-beta.46",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.46",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.46",
-    "@babel/preset-env": "^7.0.0-beta.46",
-    "@babel/preset-flow": "^7.0.0-beta.46",
-    "@babel/preset-react": "^7.0.0-beta.46",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "^23.0.0-charlie.1",
-    "babel-loader": "^8.0.0-beta.2",
-    "babel-plugin-emotion": "^9.1.2",
-    "css-loader": "^0.28.11",
-    "emotion": "^9.1.3",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.3",
-    "escape-string-regexp": "^1.0.5",
-    "eslint": "^4.19.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-import-resolver-webpack": "^0.9.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-flowtype": "^2.46.3",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "file-loader": "^1.1.11",
-    "filemanager-webpack-plugin": "^1.0.25",
-    "flow-bin": "^0.72.0",
-    "html-webpack-plugin": "^3.2.0",
-    "husky": "^0.14.3",
-    "jest": "^22.4.2",
-    "json-loader": "^0.5.7",
-    "lint-staged": "^7.1.0",
-    "mini-css-extract-plugin": "^0.4.0",
-    "prettier": "^1.12.1",
-    "prettier-check": "^2.0.0",
-    "prop-types": "^15.6.1",
-    "react": "16.3.2",
-    "react-dom": "16.3.2",
-    "react-emotion": "^9.1.3",
-    "react-hot-loader": "^4.1.3",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
-    "react-test-renderer": "^16.3.2",
-    "redux": "^4.0.0",
-    "redux-immutable-state-invariant": "^2.1.0",
-    "redux-thunk": "^2.2.0",
-    "serve": "^6.5.6",
-    "style-loader": "^0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.8.1",
-    "webpack-cli": "^2.1.3",
-    "webpack-dev-server": "^3.1.4"
+    "@eslint/compat": "^1.1.1",
+    "@eslint/js": "^9.10.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/eslint__js": "^8.42.3",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.5",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc-a99d8e8d-20240916",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "globals": "^15.9.0",
+    "happy-dom": "^15.7.3",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.6.0",
+    "vite": "^5.4.3",
+    "vitest": "^2.0.5"
   }
 }
