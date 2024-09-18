@@ -56,6 +56,9 @@
     "arrowParens": "always",
     "bracketSpacing": false
   },
+  "dependencies": {
+    "ryze": "^0.1.4"
+  },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

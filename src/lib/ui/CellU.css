@@ -1,0 +1,24 @@
+.cell {
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid white;
+  border-right: 1px solid red;
+  padding: 12px;
+
+  width: 60px;
+
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.cell:first-child {
+  border-left: 1px solid cyan;
+}
+
+.cell.sticky {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}

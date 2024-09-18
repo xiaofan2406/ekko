@@ -1,0 +1,6 @@
+.row {
+  position: relative;
+
+  display: flex;
+  width: fit-content;
+}
